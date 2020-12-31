@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "940835789631",
+    "project_id": "employee-management-syst-2820a",
+    "storage_bucket": "employee-management-syst-2820a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940835789631:android:75dd3b3dcb465df23e918a",
+        "android_client_info": {
+          "package_name": "com.ronto.e_m_s"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940835789631-8l36isr8sdfktq8m815u03j86rmjvmas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ2QxFpOOABhVSqakkdN75emmwoSABqp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940835789631-8l36isr8sdfktq8m815u03j86rmjvmas.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
