@@ -18,20 +18,29 @@ class LeaveApplicationsDetails extends StatefulWidget {
 
 class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
   //////////////////////////////////////////////////////
+
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   User loggedInUser;
   String email;
   String password;
+  String applyDate;
+  String applyTime;
+  String startDate;
+  String endDate;
+  String reason;
+  int selectedIndex = -1;
 
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
     getCurrentUser();
+    messagesStream();
   }
 
-  void getCurrentUser() async {
+  getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
@@ -41,146 +50,112 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
     } catch (e) {
       print('Not user');
     }
+    return loggedInUser.uid;
   }
 
 //////////////////////////////////////////////////////////
-  Widget bodyData() => DataTable(
-        onSelectAll: (b) {},
-        sortColumnIndex: 2,
-        sortAscending: true,
-        columns: <DataColumn>[
-          DataColumn(
-            label: Text('Apply Date'),
-            numeric: false,
-            onSort: (i, b) {
-              setState(() {
-                leaveDetails.sort((a, b) => a.applyDate.compareTo(b.applyDate));
-              });
-            },
-            tooltip: 'To display Start Date',
-          ),
-          DataColumn(
-            label: Text('Approved Date'),
-            numeric: false,
-            onSort: (index, bool) {},
-            tooltip: 'To display Start Date',
-          ),
-          DataColumn(
-            label: Text('ApprovedBy'),
-            numeric: false,
-            onSort: (i, b) {
-              setState(() {
-                leaveDetails
-                    .sort((a, b) => a.approvedBy.compareTo(b.approvedBy));
-              });
-            },
-            tooltip: 'To display Start Date',
-          ),
-          DataColumn(
-            label: Text('Start Date'),
-            numeric: false,
-            onSort: (index, bool) {},
-            tooltip: 'To display Start Date',
-          ),
-          DataColumn(
-            label: Text('End Date'),
-            numeric: false,
-            onSort: (index, bool) {},
-            tooltip: 'To display Start Date',
-          ),
-          DataColumn(
-            label: Text('Status'),
-            numeric: false,
-            onSort: (index, bool) {},
-            tooltip: 'To display Start Date',
-          ),
-        ],
-        rows: leaveDetails
-            .map(
-              (detail) => DataRow(
-                cells: [
-                  DataCell(
-                    Text(detail.applyDate),
-                    onTap: () {
-                      print('Selected ${detail.applyDate}');
-                    },
-                  ),
-                  DataCell(
-                    Text(detail.approvedDate),
-                  ),
-                  DataCell(
-                    Text(detail.approvedBy),
-                  ),
-                  DataCell(
-                    Text(detail.starDate),
-                  ),
-                  DataCell(
-                    Text(detail.endDate),
-                  ),
-                  DataCell(
-                    Text(detail.status),
-                  ),
-                ],
-              ),
-            )
-            .toList(),
-      );
+
+  @override
+  messagesStream() async {
+    await for (var snapshot in _firestore
+        .collection('Employee')
+        .doc(loggedInUser.uid)
+        .collection('LeaveApplication')
+        .snapshots())
+      for (var leaveApplication in snapshot.docs) {
+        print(leaveApplication.data());
+      }
+  }
+
+  /////////////////////////////
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Leave Details'),
+        backgroundColor: Colors.blue[900],
+        title: Text(
+          'Leave Details',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
-      body: ListView(
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          Column(
-            children: [
-              Container(
-                child: bodyData(),
-              ),
-            ],
-          )
-        ],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        child: FutureBuilder(
+          future: getCurrentUser(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return CircularProgressIndicator();
+            } else
+              return ListView(
+                addRepaintBoundaries: true,
+                //mainAxisSize: MainAxisSize.min,
+                //mainAxisAlignment: MainAxisAlignment.center,
+                scrollDirection: Axis.horizontal,
+
+                children: <Widget>[
+                  StreamBuilder(
+                    stream: _firestore
+                        .collection('Employee')
+                        .doc(loggedInUser.uid)
+                        .collection('LeaveApplication')
+                        .snapshots(),
+                    // ignore: missing_return
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return new Text('Loading...');
+                      return new DataTable(
+                        columns: <DataColumn>[
+                          new DataColumn(label: Text('Apply Date')),
+                          new DataColumn(label: Text('Apply Time')),
+                          new DataColumn(label: Text('Start Date')),
+                          new DataColumn(label: Text('End Date')),
+                          new DataColumn(label: Text('Reason')),
+                          new DataColumn(label: Text(' ')),
+                        ],
+                        rows: _createRows(snapshot.data),
+                      );
+                    },
+                  ),
+                ],
+              );
+          },
+        ),
       ),
     );
   }
-}
 
-class LeaveDetails {
-  var starDate, endDate, applyDate, approvedDate;
-  String approvedBy, status;
-  LeaveDetails(
-      {this.starDate,
-      this.endDate,
-      this.applyDate,
-      this.approvedDate,
-      this.approvedBy,
-      this.status});
+  List<DataRow> _createRows(QuerySnapshot snapshot) {
+    List<DataRow> newList = snapshot.docs.map(
+      (DocumentSnapshot documentSnapshot) {
+        return new DataRow(
+          cells: [
+            DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
+            DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),
+            DataCell(Text(documentSnapshot.data()['StartDate'].toString())),
+            DataCell(Text(documentSnapshot.data()['EndDate'].toString())),
+            DataCell(Text(documentSnapshot.data()['Reason'].toString())),
+            DataCell(
+              IconButton(
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  _firestore
+                      .collection('Employee')
+                      .doc(loggedInUser.uid)
+                      .collection('LeaveApplication')
+                      .doc(documentSnapshot.id)
+                      .delete();
+                },
+              ),
+            )
+          ],
+        );
+      },
+    ).toList();
+    return newList;
+  }
 }
-
-var leaveDetails = <LeaveDetails>[
-  LeaveDetails(
-      starDate: '1/2/2020',
-      endDate: '5/2/2020',
-      applyDate: '12/1/2020',
-      approvedDate: '30/1/2020',
-      approvedBy: 'NB',
-      status: 'Rejected'),
-  LeaveDetails(
-      starDate: '1/2/2020',
-      endDate: '5/2/2020',
-      applyDate: '13/1/2020',
-      approvedDate: '30/1/2020',
-      approvedBy: 'MI',
-      status: 'Approved'),
-  LeaveDetails(
-      starDate: '1/2/2020',
-      endDate: '5/2/2020',
-      applyDate: '14/1/2020',
-      approvedDate: '30/1/2020',
-      approvedBy: 'NB',
-      status: 'Rejected'),
-];

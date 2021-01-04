@@ -29,6 +29,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   String phone;
   String Admin;
   String Employee;
+  String uploadDob;
 
   File _image;
 
@@ -255,6 +256,42 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                       ),
                     ),
                   ),
+                  // Container(
+                  //   color: Colors.white,
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       RaisedButton(
+                  //         child: Text('Select Dob'),
+                  //         onPressed: () {
+                  //           showDatePicker(
+                  //                   context: context,
+                  //                   initialDate: DateTime.now(),
+                  //                   firstDate: DateTime(1900),
+                  //                   lastDate: DateTime(3000))
+                  //               .then((value) {
+                  //             setState(() {
+                  //               dob = value;
+                  //
+                  //               uploadDob =
+                  //                   "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year.toString()}";
+                  //               print(uploadDob);
+                  //             });
+                  //           });
+                  //         },
+                  //       ),
+                  //       SizedBox(height: 10),
+                  //       Text(
+                  //         uploadDob == null
+                  //             ? 'Nothing has been selected'
+                  //             : '${dob.day}/${dob.month}/${dob.year}',
+                  //         style: TextStyle(fontSize: 20),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+
+                  ///////////////**********End Date Picker***************///////////////
+
                   SizedBox(
                     height: 20,
                   ),

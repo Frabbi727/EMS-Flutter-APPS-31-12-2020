@@ -24,6 +24,7 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
   String amount;
   String reason;
   String applyDate;
+  String applyTime;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
     getCurrentUser();
   }
 
-  void getCurrentUser() async {
+  getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
@@ -72,8 +73,28 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                       borderRadius: BorderRadius.circular(30),
                     )),
                     child: Text(
-                      applyDate =
-                          'Apply Date :${now.day}/${now.month}/${now.year} Time: ${now.hour}/${now.minute}',
+                      applyDate = 'Date: ${now.day}/${now.month}/${now.year}',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 60,
+                  width: 400,
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: (BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    )),
+                    child: Text(
+                      applyTime = ' Time :  ${now.hour}:${now.minute}',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.black,
@@ -131,10 +152,6 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                         child: Text('Loan'),
                         value: 'Loan',
                       ),
-                      // DropdownMenuItem(
-                      //   child: Text('Family Program'),
-                      //   value: 'Family Program',
-                      // ),
                       DropdownMenuItem(
                         child: Text('Others'),
                         value: 'Others',
@@ -194,20 +211,6 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                           print(reason);
                           print(applyDate);
 
-                          // final newAP= _firestore
-                          //      .collection('Employee')
-                          //      .doc(loggedInUser.uid)
-                          //      .collection('AdvanceApplication')
-                          //      .add({
-                          //    'Amount': amount,
-                          //    'Reason': reason,
-                          //    'ApplyDate': applyDate,
-                          //  });
-                          //
-                          //  Navigator.push(
-                          //      context,
-                          //      MaterialPageRoute(
-                          //          builder: (context) => EmployeePortal()));
                           try {
                             final newAP = _firestore
                                 .collection('Employee')
@@ -217,12 +220,10 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                               'Amount': amount,
                               'Reason': reason,
                               'ApplyDate': applyDate,
+                              'ApplyTime': applyTime,
+                              'Email': loggedInUser.email,
                             });
 
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => EmployeePortal()));
                             if (newAP != null) {
                               Navigator.push(
                                   context,

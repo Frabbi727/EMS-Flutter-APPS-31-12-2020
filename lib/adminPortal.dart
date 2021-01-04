@@ -9,6 +9,7 @@ import 'adminAdvanceApproval.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_m_s/allEmployeeTableDetailsForAdmin.dart';
 import 'package:e_m_s/adminProfile.dart';
+import 'adminAdvanceApproval.dart';
 
 class AdminPortal extends StatefulWidget {
   @override

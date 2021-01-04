@@ -25,69 +25,100 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
     // TODO: implement initState
     super.initState();
     getCurrentUser();
+    getInformation();
   }
 
-  void getCurrentUser() async {
+  Future getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
         print(loggedInUser.email);
+        return loggedInUser.uid;
       }
     } catch (e) {
       print('Not user');
     }
+    return getInformation();
   }
 
 //////////////////////////////////////////////////////////
 
-  void getInformation() async {
-    final Employee =
-        await _firestore.collection('Employee').doc(loggedInUser.uid).get();
-
-    // for (var employee in Employee.doc(loggedInUser.uid)) {
-    //   print(employee.data());
-    // }
-    print(loggedInUser);
+  Future getInformation() async {
+    return await _firestore.collection('Employee').doc(loggedInUser.uid).get();
   }
 
 //////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepOrange,
-      body: SafeArea(
-        child: SizedBox(
-          height: 100,
-          width: 150,
-          child: Container(
-            child: RaisedButton(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              color: Colors.lightGreenAccent,
-              splashColor: Colors.lightGreenAccent[100],
-              child: Text(
-                'Leave Status',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onPressed: () {
-                print(loggedInUser.email);
-                getInformation();
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) =>
-                //             LeaveApplicationForm()));
-              },
-            ),
-          ),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.blue[900],
+        title: Text(
+          'Profile',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        child: FutureBuilder(
+          future: getCurrentUser(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return CircularProgressIndicator();
+            } else
+              return ListView(
+                //mainAxisSize: MainAxisSize.min,
+                //mainAxisAlignment: MainAxisAlignment.center,
+                scrollDirection: Axis.horizontal,
+
+                children: <Widget>[
+                  StreamBuilder(
+                    stream: _firestore
+                        .collection('Employee')
+                        .doc(loggedInUser.uid)
+                        .snapshots(),
+                    // ignore: missing_return
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return new Text('Loading...');
+                      return new DataTable(
+                        columns: <DataColumn>[
+                          // new DataColumn(
+                          //   label: Text('Serial'),
+                          // ),
+                          new DataColumn(label: Text('Name')),
+                          new DataColumn(label: Text('Phone')),
+                          new DataColumn(label: Text('Email')),
+                          new DataColumn(label: Text('Dob')),
+                          new DataColumn(label: Text('Phone')),
+                          new DataColumn(label: Text('Address')),
+                        ],
+                        rows: _createRows(snapshot.data),
+                      );
+                    },
+                  ),
+                ],
+              );
+          },
         ),
       ),
     );
+  }
+
+  List<DataRow> _createRows(QuerySnapshot snapshot) {
+    List<DataRow> newList =
+        snapshot.docs.map((DocumentSnapshot documentSnapshot) {
+      return new DataRow(cells: [
+        DataCell(Text(documentSnapshot.data()['Name'].toString())),
+        DataCell(Text(documentSnapshot.data()['Phone'].toString())),
+        DataCell(Text(documentSnapshot.data()['Email'].toString())),
+        DataCell(Text(documentSnapshot.data()['Dob'].toString())),
+        DataCell(Text(documentSnapshot.data()['Phone'].toString())),
+        DataCell(Text(documentSnapshot.data()['Address'].toString())),
+      ]);
+    }).toList();
+    return newList;
   }
 }

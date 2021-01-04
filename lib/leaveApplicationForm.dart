@@ -12,15 +12,19 @@ class LeaveApplicationForm extends StatefulWidget {
 
 class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
   //////////////////////////////////////////////////////
+  DateTime picker;
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   User loggedInUser;
   String email;
   String password;
   String applyDate;
-  String startDate;
-  String endDate;
+  DateTime startDate;
+  DateTime endDate;
   String reason;
+  String applyTime;
+  String uploadDateStart;
+  String uploadDateEnd;
 
   @override
   void initState() {
@@ -29,6 +33,7 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
     getCurrentUser();
   }
 
+/////////////Getting current User ////////////////
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
@@ -68,21 +73,8 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     )),
-                    // child: TextField(
-                    //   decoration: InputDecoration(
-                    //     border: InputBorder.none,
-                    //     fillColor: Colors.white,
-                    //     labelText: 'Start Date',
-                    //     hintStyle: TextStyle(color: Colors.black),
-                    //     prefixIcon: Icon(
-                    //       Icons.date_range,
-                    //       color: Colors.lightGreen[800],
-                    //     ),
-                    //   ),
-                    // ),
                     child: Text(
-                      applyDate =
-                          'Apply Date :${now.day}/${now.month}/${now.year} Time: ${now.hour}/${now.minute}',
+                      applyDate = 'Date: ${now.day}/${now.month}/${now.year} ',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.black,
@@ -93,78 +85,110 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  decoration: (BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  )),
-                  child: TextField(
-                    onChanged: (value) {
-                      startDate = value;
-                    },
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      fillColor: Colors.white,
-                      labelText: ' Start Date ',
-                      hintStyle: TextStyle(color: Colors.black),
-                      prefixIcon: Icon(
-                        Icons.date_range_outlined,
-                        color: Colors.lightGreen[800],
+                SizedBox(
+                  height: 60,
+                  width: 400,
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: (BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    )),
+                    child: Text(
+                      applyTime = 'Time: ${now.hour}:${now.minute}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
+
+                ///////////***********Date Picker Problem ******************/////////////////////
                 SizedBox(
                   height: 20,
                 ),
                 Container(
-                  alignment: Alignment.center,
-                  decoration: (BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  )),
-                  child: TextField(
-                    onChanged: (value) {
-                      endDate = value;
-                    },
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      fillColor: Colors.white,
-                      labelText: 'End Date',
-                      hintStyle: TextStyle(color: Colors.black),
-                      prefixIcon: Icon(
-                        Icons.date_range_rounded,
-                        color: Colors.lightGreen[800],
+                  color: Colors.white,
+                  child: Column(
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text('Select Starting Date'),
+                        onPressed: () {
+                          showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(3000))
+                              .then((value) {
+                            setState(() {
+                              startDate = value;
+
+                              uploadDateStart =
+                                  "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year.toString()}";
+                              print(startDate);
+                            });
+                          });
+                        },
                       ),
-                    ),
+                      SizedBox(height: 10),
+                      Text(
+                        startDate == null
+                            ? 'Nothing has been selected'
+                            : '${startDate.day}/${startDate.month}/${startDate.year}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
                 ),
+
+                ///////////////**********Start Date Picker***************///////////////
+
+                //////////////************End DatePicker*****************//////////////
                 SizedBox(
                   height: 20,
                 ),
-                // Container(
-                //   alignment: Alignment.center,
-                //   decoration: (BoxDecoration(
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.circular(30),
-                //   )),
-                //   child: TextField(
-                //     onChanged: (value) {
-                //       reason = value;
-                //     },
-                //     decoration: InputDecoration(
-                //       border: InputBorder.none,
-                //       fillColor: Colors.white,
-                //       labelText: ' Reason ',
-                //       hintStyle: TextStyle(color: Colors.black),
-                //       prefixIcon: Icon(
-                //         Icons.text_fields,
-                //         color: Colors.lightGreen[800],
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text('Select End Date'),
+                        onPressed: () {
+                          showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(3000))
+                              .then((value) {
+                            setState(() {
+                              endDate = value;
+
+                              uploadDateEnd =
+                                  "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year.toString()}";
+                              print(endDate);
+                            });
+                          });
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        endDate == null
+                            ? 'Nothing has been selected'
+                            : '${endDate.day}/${endDate.month}/${endDate.year}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ),
+
+                ///////////////**********End Date Picker***************///////////////
+
+                SizedBox(
+                  height: 20,
+                ),
+
                 Container(
                   alignment: Alignment.center,
                   decoration: (BoxDecoration(
@@ -246,20 +270,7 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                         onPressed: () async {
                           print(loggedInUser.uid);
                           print(loggedInUser.email);
-                          // var newLA= await _firestore
-                          //      .collection('Employee')
-                          //      .doc(loggedInUser.uid)
-                          //      .collection('LeaveApplication')
-                          //      .add({
-                          //    'ApplyDate': applyDate,
-                          //    'StartDate': startDate,
-                          //    'EndDate': endDate,
-                          //    'Reason': reason,
-                          //  });
-                          //  Navigator.push(
-                          //      context,
-                          //      MaterialPageRoute(
-                          //          builder: (context) => EmployeePortal()));
+
                           try {
                             final newLA = await _firestore
                                 .collection('Employee')
@@ -267,8 +278,9 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                                 .collection('LeaveApplication')
                                 .add({
                               'ApplyDate': applyDate,
-                              'StartDate': startDate,
-                              'EndDate': endDate,
+                              'ApplyTime': applyTime,
+                              'StartDate': uploadDateStart,
+                              'EndDate': uploadDateEnd,
                               'Reason': reason,
                             });
                             if (newLA != null) {
