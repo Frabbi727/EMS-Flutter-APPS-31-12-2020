@@ -12,7 +12,7 @@ class LeaveApplicationForm extends StatefulWidget {
 
 class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
   //////////////////////////////////////////////////////
-  DateTime picker;
+
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   User loggedInUser;
@@ -282,6 +282,7 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                               'StartDate': uploadDateStart,
                               'EndDate': uploadDateEnd,
                               'Reason': reason,
+                              'Email': loggedInUser.email,
                             });
                             if (newLA != null) {
                               Navigator.push(

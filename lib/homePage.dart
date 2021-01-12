@@ -149,12 +149,6 @@ class _HomePageState extends State<HomePage> {
                               );
                             }
                           });
-                          // if (user != null) {
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => EmployeePortal()));
-                          // }
                         } catch (e) {
                           print('having some Problem');
                         }
@@ -166,36 +160,6 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    // MaterialButton(
-                    //   minWidth: 200,
-                    //   elevation: 10,
-                    //   padding:
-                    //       EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    //   color: Colors.lightGreenAccent,
-                    //   shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(10)),
-                    //   onPressed: () async {
-                    //     try {
-                    //       final user = await _auth.signInWithEmailAndPassword(
-                    //           email: email, password: password);
-                    //       print('user');
-                    //       if (user != null) {
-                    //         Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //                 builder: (context) => AdminPortal()));
-                    //       }
-                    //     } catch (e) {
-                    //       print('having some Problem');
-                    //     }
-                    //   },
-                    //   textColor: Colors.black,
-                    //   child: Text(
-                    //     'Admin',
-                    //     style: TextStyle(
-                    //         fontSize: 20, fontWeight: FontWeight.bold),
-                    //   ),
-                    // ),
                     MaterialButton(
                       minWidth: 200,
                       elevation: 10,
@@ -217,29 +181,6 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-
-                    /////For test
-                    // MaterialButton(
-                    //   minWidth: 200,
-                    //   elevation: 10,
-                    //   padding:
-                    //       EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    //   color: Colors.lightGreenAccent,
-                    //   shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(10)),
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => LoginSuccessFullPage()));
-                    //   },
-                    //   textColor: Colors.black,
-                    //   child: Text(
-                    //     'Test',
-                    //     style: TextStyle(
-                    //         fontSize: 20, fontWeight: FontWeight.bold),
-                    //   ),
-                    // )
                   ],
                 ),
               )

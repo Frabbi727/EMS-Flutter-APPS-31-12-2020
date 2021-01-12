@@ -1,3 +1,4 @@
+import 'package:e_m_s/adminLeaveApproval.dart';
 import 'package:e_m_s/allEmployeeTableDetailsForAdmin.dart';
 import 'package:flutter/material.dart';
 import 'homePage.dart';
@@ -10,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_m_s/allEmployeeTableDetailsForAdmin.dart';
 import 'package:e_m_s/adminProfile.dart';
 import 'adminAdvanceApproval.dart';
+import 'package:e_m_s/adminLeaveApproval.dart';
 
 class AdminPortal extends StatefulWidget {
   @override
@@ -57,114 +59,122 @@ class _AdminPortalState extends State<AdminPortal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.amberAccent,
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueGrey,
         title: Text(''),
       ),
       drawer: AdminDrawer(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              height: 200,
-              color: Colors.cyan,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: SizedBox(
-                      height: 100,
-                      width: 150,
-                      child: RaisedButton(
-                        elevation: 20,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        color: Colors.lightGreenAccent,
-                        splashColor: Colors.lightGreenAccent[100],
-                        child: Text(
-                          'Advance Applications',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onPressed: () {
-                          print(loggedInUser.email);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdvanceApproval()));
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 100,
-                    width: 150,
-                    child: Container(
-                      child: RaisedButton(
-                        elevation: 20,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        color: Colors.lightGreenAccent,
-                        splashColor: Colors.lightGreenAccent[100],
-                        child: Text(
-                          'Leave Applications',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             AdminPortal()));
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 100,
-            width: 150,
-            child: Container(
-              child: RaisedButton(
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                color: Colors.lightGreenAccent,
-                splashColor: Colors.lightGreenAccent[100],
-                child: Text(
-                  'All Employee Details',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                width: 400,
+                height: 400,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
                   ),
                 ),
-                onPressed: () {
-                  getInformation();
+                child: Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 70,
+                        width: 350,
+                        child: RaisedButton(
+                          elevation: 50,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.deepOrangeAccent,
+                          child: Text(
+                            'Advance Applications',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () {
+                            print(loggedInUser.email);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdvanceApproval()));
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 70,
+                        width: 350,
+                        child: RaisedButton(
+                          elevation: 50,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.deepOrange,
+                          splashColor: Colors.lightGreenAccent[100],
+                          child: Text(
+                            'Leave Applications',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LeaveApproval()));
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 70,
+                        width: 350,
+                        child: Container(
+                          child: RaisedButton(
+                            elevation: 50,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            color: Colors.redAccent,
+                            child: Text(
+                              'All Employee Details',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              getInformation();
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AllEmployeeTable()));
-                },
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AllEmployeeTable()));
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

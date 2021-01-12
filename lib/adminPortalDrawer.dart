@@ -58,36 +58,6 @@ class _AdminDrawerState extends State<AdminDrawer> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            // ListTile(
-            //   leading: Icon(
-            //     Icons.file_copy,
-            //     color: Colors.lightGreen[800],
-            //   ),
-            //   onLongPress: () {},
-            //   title: Text(
-            //     'Leave Applications',
-            //     style: TextStyle(
-            //         fontSize: 20,
-            //         color: Colors.black,
-            //         fontWeight: FontWeight.bold),
-            //   ),
-            // ),
-            // ListTile(
-            //   leading: Icon(
-            //     Icons.file_copy,
-            //     color: Colors.lightGreen[800],
-            //   ),
-            //   onLongPress: () {
-            //     //Do some Work
-            //   },
-            //   title: Text(
-            //     'Advance Applications',
-            //     style: TextStyle(
-            //         fontSize: 20,
-            //         color: Colors.black,
-            //         fontWeight: FontWeight.bold),
-            //   ),
-            // ),
             SizedBox(
               height: 50,
             ),

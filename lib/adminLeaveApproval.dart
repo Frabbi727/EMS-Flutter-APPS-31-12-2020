@@ -9,25 +9,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_m_s/adminPortal.dart';
 import 'package:e_m_s/adminPortalDrawer.dart';
 
-class AdvanceApproval extends StatefulWidget {
+class LeaveApproval extends StatefulWidget {
   @override
-  _AdvanceApprovalState createState() => _AdvanceApprovalState();
+  _LeaveApprovalState createState() => _LeaveApprovalState();
 }
 
-class _AdvanceApprovalState extends State<AdvanceApproval> {
+class _LeaveApprovalState extends State<LeaveApproval> {
   //////////////////////////////////////////////////////
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   User loggedInUser;
   String email;
   String password;
-  String apv = 'aproved';
 
-  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCurrentUser();
+    messagesStream();
   }
 
   getCurrentUser() async {
@@ -44,9 +43,18 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
 
   ////////////////////
 
+  Future messagesStream() async {
+    print('Stream');
+    return await _firestore
+        .collection('Employee')
+        .doc()
+        .collection('LeaveApplication')
+        .get();
+  }
+
   Future populateTable() async {
     QuerySnapshot result = await FirebaseFirestore.instance
-        .collectionGroup('AdvanceApplication')
+        .collectionGroup('LeaveApplication')
         .get();
     List<DocumentSnapshot> documents = result.docs;
     documents.forEach((doc) {
@@ -56,9 +64,10 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
           DataRow(
             cells: [
               DataCell(Text(doc.data()['Email'])),
-              DataCell(Text(doc.data()['Amount'])),
               DataCell(Text(doc.data()['ApplyDate'])),
               DataCell(Text(doc.data()['ApplyTime'])),
+              DataCell(Text(doc.data()['StartDate'])),
+              DataCell(Text(doc.data()['EndDate'])),
               DataCell(Text(doc.data()['Reason'])),
               DataCell(IconButton(
                 icon: Icon(
@@ -91,6 +100,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
   }
 
 //////////////////////////////////////////////////////////
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +109,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
         title: Text(
-          'Advance Applications',
+          'Leave Applications',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -121,7 +131,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
               children: <Widget>[
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collectionGroup('AdvanceApplication')
+                      .collectionGroup('LeaveApplication')
                       .snapshots(),
 
                   // ignore: missing_return
@@ -131,9 +141,10 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
                     return new DataTable(
                       columns: <DataColumn>[
                         new DataColumn(label: Text('Email')),
-                        new DataColumn(label: Text('Amount')),
                         new DataColumn(label: Text('Apply Date')),
-                        new DataColumn(label: Text('Time')),
+                        new DataColumn(label: Text('Apply Time')),
+                        new DataColumn(label: Text('Start Date')),
+                        new DataColumn(label: Text('End Date')),
                         new DataColumn(label: Text('Reason')),
                         new DataColumn(label: Text(' ')),
                         new DataColumn(label: Text(' ')),
@@ -159,9 +170,10 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
         return new DataRow(
           cells: [
             DataCell(Text(documentSnapshot.data()['Email'].toString())),
-            DataCell(Text(documentSnapshot.data()['Amount'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),
+            DataCell(Text(documentSnapshot.data()['StartDate'].toString())),
+            DataCell(Text(documentSnapshot.data()['EndDate'].toString())),
             DataCell(Text(documentSnapshot.data()['Reason'].toString())),
             DataCell(IconButton(
               icon: Icon(

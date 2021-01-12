@@ -46,13 +46,12 @@ class _AllEmployeeTableState extends State<AllEmployeeTable> {
   String address;
   String dob;
   String phone;
-  // int serial = 0;
+
   @override
   void messagesStream() async {
     await for (var snapshot in _firestore.collection('Employee').snapshots())
       for (var employee in snapshot.docs) {
         print(employee.data());
-        // serial++;
       }
   }
 
@@ -64,20 +63,15 @@ class _AllEmployeeTableState extends State<AllEmployeeTable> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
-        title: Center(
-          child: Text(
-            'Employee List',
-            style: TextStyle(color: Colors.white),
-          ),
+        title: Text(
+          'Employee List',
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: ListView(
-          //mainAxisSize: MainAxisSize.min,
-          //mainAxisAlignment: MainAxisAlignment.center,
           scrollDirection: Axis.horizontal,
-
           children: <Widget>[
             StreamBuilder(
               stream: _firestore.collection('Employee').snapshots(),
@@ -86,15 +80,14 @@ class _AllEmployeeTableState extends State<AllEmployeeTable> {
                 if (!snapshot.hasData) return new Text('Loading...');
                 return new DataTable(
                   columns: <DataColumn>[
-                    // new DataColumn(
-                    //   label: Text('Serial'),
-                    // ),
                     new DataColumn(label: Text('Name')),
                     new DataColumn(label: Text('Phone')),
                     new DataColumn(label: Text('Email')),
                     new DataColumn(label: Text('Address')),
                     new DataColumn(label: Text('Gender')),
                     new DataColumn(label: Text('Dob')),
+                    new DataColumn(label: Text('Designation')),
+                    new DataColumn(label: Text('Remove')),
                   ],
                   rows: _createRows(snapshot.data),
                 );
@@ -116,6 +109,14 @@ class _AllEmployeeTableState extends State<AllEmployeeTable> {
         DataCell(Text(documentSnapshot.data()['Address'].toString())),
         DataCell(Text(documentSnapshot.data()['Gender'].toString())),
         DataCell(Text(documentSnapshot.data()['Dob'].toString())),
+        DataCell(Text(documentSnapshot.data()['Designation'].toString())),
+        DataCell(IconButton(
+          icon: Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          onPressed: () {},
+        )),
       ]);
     }).toList();
     return newList;

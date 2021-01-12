@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_m_s/adminAdvanceApproval.dart';
+import 'package:e_m_s/adminPortal.dart';
 
 class AdminProfile extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _AdminProfileState extends State<AdminProfile> {
   User loggedInUser;
   String email;
   String password;
+  String name;
 
   @override
   void initState() {
@@ -24,7 +26,7 @@ class _AdminProfileState extends State<AdminProfile> {
     getCurrentUser();
   }
 
-  void getCurrentUser() async {
+  getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
@@ -36,10 +38,17 @@ class _AdminProfileState extends State<AdminProfile> {
     }
   }
 
-  ////////////////////
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Container(),
+        ],
+      ),
+    );
   }
 }

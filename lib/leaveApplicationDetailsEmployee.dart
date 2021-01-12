@@ -91,10 +91,7 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
             } else
               return ListView(
                 addRepaintBoundaries: true,
-                //mainAxisSize: MainAxisSize.min,
-                //mainAxisAlignment: MainAxisAlignment.center,
                 scrollDirection: Axis.horizontal,
-
                 children: <Widget>[
                   StreamBuilder(
                     stream: _firestore

@@ -18,18 +18,20 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   // bool _secureText;
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   String email;
   String password;
   String gender;
   String designation;
+  String registrationAs;
   String name;
   String address;
   String dob;
   String phone;
   String Admin;
   String Employee;
-  String uploadDob;
+  DateTime uploadDob;
 
   File _image;
 
@@ -48,6 +50,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = new DateTime.now();
     return Scaffold(
       appBar: AppBar(
         title: Text('Create New Account'),
@@ -58,6 +61,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Form(
+              key: _formkey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -90,12 +94,24 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                     height: 20,
                   ),
                   Container(
+                    padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: (BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     )),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Field cannot be empty";
+                        }
+                        if (!RegExp(
+                                '^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]+.[com]')
+                            .hasMatch(value)) {
+                          return "example@gmail.com";
+                        }
+                        return null;
+                      },
                       onChanged: (value) {
                         email = value;
                       },
@@ -111,16 +127,32 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                       ),
                     ),
                   ),
+                  //Email///////
                   SizedBox(
                     height: 20,
                   ),
+                  //////PassWord//////
                   Container(
+                    padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: (BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     )),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Field cannot be empty";
+                        }
+                        if (value.length < 6) {
+                          return "Minimum 6 Digits";
+                        }
+                        if (!RegExp('^[0-9]').hasMatch(value)) {
+                          return 'Only Digits (0-9)';
+                        }
+
+                        return null;
+                      },
                       // obscureText: _secureText,
                       onChanged: (value) {
                         password = value;
@@ -130,14 +162,6 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         fillColor: Colors.white,
                         labelText: 'Password',
                         hintStyle: TextStyle(color: Colors.black),
-                        // prefixIcon: IconButton(
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       _secureText = !_secureText;
-                        //     });
-                        //   },
-                        //   icon: Icon(Icons.security),
-                        // ),
                         prefixIcon: Icon(
                           Icons.security,
                           color: Colors.lightGreen[800],
@@ -145,17 +169,30 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                       ),
                     ),
                   ),
+                  /////////Password//////////
                   SizedBox(
                     height: 20,
                   ),
+                  /////////////Name///////////
                   Container(
+                    padding: EdgeInsets.all(10),
                     // margin: EdgeInsets.only(top: 10),
                     alignment: Alignment.center,
                     decoration: (BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     )),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Field cannot be empty";
+                        }
+                        if (!RegExp('^[a-zA-Z]').hasMatch(value)) {
+                          return 'Invalid ';
+                        }
+
+                        return null;
+                      },
                       onChanged: (value) {
                         name = value;
                       },
@@ -171,17 +208,33 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                       ),
                     ),
                   ),
+                  //////Name/////
                   SizedBox(
                     height: 20,
                   ),
+                  /////Phone//////
                   Container(
-                    // margin: EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: (BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     )),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Field cannot be empty";
+                        }
+                        if (!RegExp('^[0-9]').hasMatch(value)) {
+                          return 'Enter Digits Phone Number ';
+                        }
+
+                        // if (value.length <= 11) {
+                        //   return "11 Digits Phone Number Required";
+                        // }
+
+                        return null;
+                      },
                       onChanged: (value) {
                         phone = value;
                       },
@@ -200,7 +253,9 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                   SizedBox(
                     height: 20,
                   ),
+                  /////////////////////Gender/////////
                   Container(
+                    padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: (BoxDecoration(
                       color: Colors.white,
@@ -233,75 +288,106 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                   SizedBox(
                     height: 20,
                   ),
+                  //////////////Employee Status/////////////////
                   Container(
+                    padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: (BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     )),
-                    child: TextField(
-                      onChanged: (value) {
-                        dob = value;
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Colors.white,
-                        labelText: 'Dob',
-                        hintText: 'DD/MM/YYYY',
-                        hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(
-                          Icons.date_range,
-                          color: Colors.lightGreen[800],
-                        ),
+                    ////Gender Go Here
+                    child: DropdownButton(
+                      hint: Text(
+                        'Designation',
                       ),
+                      onChanged: (val) {
+                        print(val);
+                        setState(() {
+                          this.designation = val;
+                        });
+                      },
+                      value: this.designation,
+                      items: [
+                        DropdownMenuItem(
+                          child: Text('Admin'),
+                          value: 'Admin',
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Senior Developer'),
+                          value: 'Senior Developer',
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Junior Developer'),
+                          value: 'Junior Developer',
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Interns'),
+                          value: 'Interns',
+                        )
+                      ],
                     ),
                   ),
-                  // Container(
-                  //   color: Colors.white,
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       RaisedButton(
-                  //         child: Text('Select Dob'),
-                  //         onPressed: () {
-                  //           showDatePicker(
-                  //                   context: context,
-                  //                   initialDate: DateTime.now(),
-                  //                   firstDate: DateTime(1900),
-                  //                   lastDate: DateTime(3000))
-                  //               .then((value) {
-                  //             setState(() {
-                  //               dob = value;
-                  //
-                  //               uploadDob =
-                  //                   "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year.toString()}";
-                  //               print(uploadDob);
-                  //             });
-                  //           });
-                  //         },
-                  //       ),
-                  //       SizedBox(height: 10),
-                  //       Text(
-                  //         uploadDob == null
-                  //             ? 'Nothing has been selected'
-                  //             : '${dob.day}/${dob.month}/${dob.year}',
-                  //         style: TextStyle(fontSize: 20),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //////////////////Employee Position///////////////
 
-                  ///////////////**********End Date Picker***************///////////////
+                  /////////////////////DATE PICKER///////////////
+                  Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text('Select Dob'),
+                          onPressed: () {
+                            showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(3000))
+                                .then((value) {
+                              setState(() {
+                                uploadDob = value;
+
+                                dob =
+                                    "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year.toString()}";
+                                print(dob);
+                              });
+                            });
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          uploadDob == null
+                              ? 'Nothing has been selected'
+                              : '${uploadDob.day}/${uploadDob.month}/${uploadDob.year}',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  ///////////////********** Date Picker***************///////////////
 
                   SizedBox(
                     height: 20,
                   ),
                   Container(
+                    padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: (BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     )),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Field cannot be empty";
+                        }
+
+                        return null;
+                      },
                       onChanged: (value) {
                         address = value;
                       },
@@ -321,6 +407,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                     height: 20,
                   ),
                   Container(
+                    padding: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: (BoxDecoration(
                       color: Colors.white,
@@ -328,15 +415,15 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                     )),
                     child: DropdownButton(
                       hint: Text(
-                        'Designation',
+                        'Register As',
                       ),
                       onChanged: (val) {
                         print(val);
                         setState(() {
-                          this.designation = val;
+                          this.registrationAs = val;
                         });
                       },
-                      value: this.designation,
+                      value: this.registrationAs,
                       items: [
                         DropdownMenuItem(
                           child: Text('Admin'),
@@ -373,44 +460,47 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                             ),
                           ),
                           onPressed: () async {
-                            print(email);
-                            print(password);
-                            print(name);
-                            print(phone);
-                            print(address);
-                            print(dob);
-                            print(designation);
+                            if (_formkey.currentState.validate()) {
+                              print(email);
+                              print(password);
+                              print(name);
+                              print(phone);
+                              print(address);
+                              print(dob);
+                              print(designation);
 
-                            try {
-                              var newUser = _auth
-                                  .createUserWithEmailAndPassword(
-                                      email: email, password: password)
-                                  .then(
-                                    (newUser) => _firestore
-                                        .collection('$designation')
-                                        .doc(newUser.user.uid)
-                                        .set(
-                                      {
-                                        'Name': name,
-                                        'Gender': gender,
-                                        'Phone': phone,
-                                        'Dob': dob,
-                                        'Address': address,
-                                        'Email': email,
-                                      },
-                                    ),
-                                  );
+                              try {
+                                var newUser = _auth
+                                    .createUserWithEmailAndPassword(
+                                        email: email, password: password)
+                                    .then(
+                                      (newUser) => _firestore
+                                          .collection('$registrationAs')
+                                          .doc(newUser.user.uid)
+                                          .set(
+                                        {
+                                          'Name': name,
+                                          'Gender': gender,
+                                          'Phone': phone,
+                                          'Dob': dob,
+                                          'Address': address,
+                                          'Email': email,
+                                          'Designation': designation,
+                                        },
+                                      ),
+                                    );
 
-                              if (newUser != null) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()));
+                                if (newUser != null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomePage()));
+                                }
+
+                                print('Its good to go');
+                              } catch (e) {
+                                print('Its not working');
                               }
-
-                              print('Its good to go');
-                            } catch (e) {
-                              print('Its not working');
                             }
                           },
                         ),
