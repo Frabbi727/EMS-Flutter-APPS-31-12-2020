@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_m_s/adminPortal.dart';
 import 'package:e_m_s/adminPortalDrawer.dart';
+import 'package:e_m_s/leaveApplicationDetailsEmployee.dart';
 
 class LeaveApproval extends StatefulWidget {
   @override
@@ -26,7 +27,6 @@ class _LeaveApprovalState extends State<LeaveApproval> {
     // TODO: implement initState
     super.initState();
     getCurrentUser();
-    messagesStream();
   }
 
   getCurrentUser() async {
@@ -43,15 +43,6 @@ class _LeaveApprovalState extends State<LeaveApproval> {
 
   ////////////////////
 
-  Future messagesStream() async {
-    print('Stream');
-    return await _firestore
-        .collection('Employee')
-        .doc()
-        .collection('LeaveApplication')
-        .get();
-  }
-
   Future populateTable() async {
     QuerySnapshot result = await FirebaseFirestore.instance
         .collectionGroup('LeaveApplication')
@@ -60,7 +51,9 @@ class _LeaveApprovalState extends State<LeaveApproval> {
     documents.forEach((doc) {
       List<DataRow> newList = result.docs.map(
         (DocumentSnapshot documentSnapshot) {
+          bool isApproved;
           print('Data list');
+          print(documentSnapshot.id);
           DataRow(
             cells: [
               DataCell(Text(doc.data()['Email'])),
@@ -70,18 +63,21 @@ class _LeaveApprovalState extends State<LeaveApproval> {
               DataCell(Text(doc.data()['EndDate'])),
               DataCell(Text(doc.data()['Reason'])),
               DataCell(IconButton(
-                icon: Icon(
-                  Icons.approval,
-                  color: Colors.red,
-                ),
-                onPressed: () {},
-              )),
-              DataCell(IconButton(
-                icon: Icon(
-                  Icons.not_interested,
-                  color: Colors.red,
-                ),
-                onPressed: () {},
+                icon: doc.data()['isApproved']
+                    ? Icon(
+                        Icons.done_outline_sharp,
+                        color: Colors.green,
+                      )
+                    : Icon(
+                        Icons.pending,
+                        color: Colors.red,
+                      ),
+                onPressed: () async {
+                  await documentSnapshot
+                      .data()
+                      .update('isApproved', (value) => true);
+                  print('approving');
+                },
               )),
               DataCell(IconButton(
                 icon: Icon(
@@ -100,7 +96,6 @@ class _LeaveApprovalState extends State<LeaveApproval> {
   }
 
 //////////////////////////////////////////////////////////
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,11 +137,10 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                       columns: <DataColumn>[
                         new DataColumn(label: Text('Email')),
                         new DataColumn(label: Text('Apply Date')),
-                        new DataColumn(label: Text('Apply Time')),
+                        new DataColumn(label: Text('Time')),
                         new DataColumn(label: Text('Start Date')),
                         new DataColumn(label: Text('End Date')),
                         new DataColumn(label: Text('Reason')),
-                        new DataColumn(label: Text(' ')),
                         new DataColumn(label: Text(' ')),
                         new DataColumn(label: Text(' ')),
                       ],
@@ -176,25 +170,48 @@ class _LeaveApprovalState extends State<LeaveApproval> {
             DataCell(Text(documentSnapshot.data()['EndDate'].toString())),
             DataCell(Text(documentSnapshot.data()['Reason'].toString())),
             DataCell(IconButton(
-              icon: Icon(
-                Icons.approval,
-                color: Colors.green,
-              ),
-              onPressed: () {},
-            )),
-            DataCell(IconButton(
-              icon: Icon(
-                Icons.not_interested,
-                color: Colors.red,
-              ),
-              onPressed: () {},
+              icon: documentSnapshot.data()['isApproved']
+                  ? Icon(
+                      Icons.done_outline_sharp,
+                      color: Colors.green,
+                    )
+                  : Icon(
+                      Icons.pending,
+                      color: Colors.red,
+                    ),
+              onPressed: () {
+                bool approve = true;
+                String employeeId = documentSnapshot.data()['Employeeid'];
+
+                print(documentSnapshot.id);
+                print(documentSnapshot.data()['Employeeid']);
+                FirebaseFirestore.instance
+                    .collection('Employee')
+                    .doc(employeeId)
+                    .collection('LeaveApplication')
+                    .doc(documentSnapshot.id)
+                    .update({'isApproved': approve}).then((value) {
+                  print('success');
+                });
+
+                //documentSnapshot.data()['isApproved'].update({});
+                print('approving');
+              },
             )),
             DataCell(IconButton(
               icon: Icon(
                 Icons.delete,
                 color: Colors.red,
               ),
-              onPressed: () {},
+              onPressed: () {
+                String employeeId = documentSnapshot.data()['Employeeid'];
+                FirebaseFirestore.instance
+                    .collection('Employee')
+                    .doc(employeeId)
+                    .collection('LeaveApplication')
+                    .doc(documentSnapshot.id)
+                    .delete();
+              },
             )),
           ],
         );

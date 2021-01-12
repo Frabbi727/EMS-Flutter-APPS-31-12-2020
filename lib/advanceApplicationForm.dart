@@ -222,6 +222,8 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                               'ApplyDate': applyDate,
                               'ApplyTime': applyTime,
                               'Email': loggedInUser.email,
+                              'Employeeid': loggedInUser.uid,
+                              'isApproved': false
                             });
 
                             if (newAP != null) {

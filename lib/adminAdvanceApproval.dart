@@ -52,7 +52,9 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
     documents.forEach((doc) {
       List<DataRow> newList = result.docs.map(
         (DocumentSnapshot documentSnapshot) {
+          bool isApproved;
           print('Data list');
+          print(documentSnapshot.id);
           DataRow(
             cells: [
               DataCell(Text(doc.data()['Email'])),
@@ -61,18 +63,21 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
               DataCell(Text(doc.data()['ApplyTime'])),
               DataCell(Text(doc.data()['Reason'])),
               DataCell(IconButton(
-                icon: Icon(
-                  Icons.approval,
-                  color: Colors.red,
-                ),
-                onPressed: () {},
-              )),
-              DataCell(IconButton(
-                icon: Icon(
-                  Icons.not_interested,
-                  color: Colors.red,
-                ),
-                onPressed: () {},
+                icon: doc.data()['isApproved']
+                    ? Icon(
+                        Icons.done_outline_sharp,
+                        color: Colors.green,
+                      )
+                    : Icon(
+                        Icons.pending,
+                        color: Colors.red,
+                      ),
+                onPressed: () async {
+                  await documentSnapshot
+                      .data()
+                      .update('isApproved', (value) => true);
+                  print('approving');
+                },
               )),
               DataCell(IconButton(
                 icon: Icon(
@@ -137,7 +142,6 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
                         new DataColumn(label: Text('Reason')),
                         new DataColumn(label: Text(' ')),
                         new DataColumn(label: Text(' ')),
-                        new DataColumn(label: Text(' ')),
                       ],
                       rows: _createRows(snapshot.data),
                     );
@@ -164,26 +168,49 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
             DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),
             DataCell(Text(documentSnapshot.data()['Reason'].toString())),
             DataCell(IconButton(
-              icon: Icon(
-                Icons.approval,
-                color: Colors.green,
-              ),
-              onPressed: () {},
-            )),
-            DataCell(IconButton(
-              icon: Icon(
-                Icons.not_interested,
-                color: Colors.red,
-              ),
-              onPressed: () {},
+              icon: documentSnapshot.data()['isApproved']
+                  ? Icon(
+                      Icons.done_outline_sharp,
+                      color: Colors.green,
+                    )
+                  : Icon(
+                      Icons.pending,
+                      color: Colors.red,
+                    ),
+              onPressed: () {
+                bool approve = true;
+                String employeeId = documentSnapshot.data()['Employeeid'];
+
+                print(documentSnapshot.id);
+                print(documentSnapshot.data()['Employeeid']);
+                FirebaseFirestore.instance
+                    .collection('Employee')
+                    .doc(employeeId)
+                    .collection('AdvanceApplication')
+                    .doc(documentSnapshot.id)
+                    .update({'isApproved': approve}).then((value) {
+                  print('success');
+                });
+
+                //documentSnapshot.data()['isApproved'].update({});
+                print('approving');
+              },
             )),
             DataCell(IconButton(
               icon: Icon(
                 Icons.delete,
                 color: Colors.red,
               ),
-              onPressed: () {},
-            )),
+              onPressed: () {
+                String employeeId = documentSnapshot.data()['Employeeid'];
+                FirebaseFirestore.instance
+                    .collection('Employee')
+                    .doc(employeeId)
+                    .collection('AdvanceApplication')
+                    .doc(documentSnapshot.id)
+                    .delete();
+              },
+            ))
           ],
         );
       },

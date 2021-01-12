@@ -109,6 +109,7 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
                           new DataColumn(label: Text('Start Date')),
                           new DataColumn(label: Text('End Date')),
                           new DataColumn(label: Text('Reason')),
+                          new DataColumn(label: Text('Status ')),
                           new DataColumn(label: Text(' ')),
                         ],
                         rows: _createRows(snapshot.data),
@@ -126,6 +127,7 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
   List<DataRow> _createRows(QuerySnapshot snapshot) {
     List<DataRow> newList = snapshot.docs.map(
       (DocumentSnapshot documentSnapshot) {
+        bool check = documentSnapshot.data()['isApproved'];
         return new DataRow(
           cells: [
             DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
@@ -133,6 +135,7 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
             DataCell(Text(documentSnapshot.data()['StartDate'].toString())),
             DataCell(Text(documentSnapshot.data()['EndDate'].toString())),
             DataCell(Text(documentSnapshot.data()['Reason'].toString())),
+            check ? DataCell(Text('Approved')) : DataCell(Text('Pending')),
             DataCell(
               IconButton(
                 icon: Icon(

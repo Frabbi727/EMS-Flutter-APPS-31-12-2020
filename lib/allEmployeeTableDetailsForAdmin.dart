@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:e_m_s/employeePortalDrawer.dart';
 import 'package:e_m_s/employeePortalDrawer.dart';
@@ -115,7 +116,12 @@ class _AllEmployeeTableState extends State<AllEmployeeTable> {
             Icons.delete,
             color: Colors.red,
           ),
-          onPressed: () {},
+          onPressed: () {
+            FirebaseFirestore.instance
+                .collection('Employee')
+                .doc(documentSnapshot.id)
+                .delete();
+          },
         )),
       ]);
     }).toList();

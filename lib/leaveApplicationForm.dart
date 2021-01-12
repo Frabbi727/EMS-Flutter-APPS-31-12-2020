@@ -283,6 +283,8 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                               'EndDate': uploadDateEnd,
                               'Reason': reason,
                               'Email': loggedInUser.email,
+                              'Employeeid': loggedInUser.uid,
+                              'isApproved': false,
                             });
                             if (newLA != null) {
                               Navigator.push(
