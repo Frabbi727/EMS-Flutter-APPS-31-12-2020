@@ -7,6 +7,7 @@ import 'leaveApplicationForm.dart';
 import 'advanceApplicationForm.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_m_s/employeeAttendance.dart';
 
 class EmployeePortal extends StatefulWidget {
   @override
@@ -44,45 +45,81 @@ class _EmployeePortalState extends State<EmployeePortal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.teal[700],
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         title: Text(''),
       ),
       drawer: EmployeeDrawer(),
-      body: SingleChildScrollView(
+      body: Padding(
+        padding: EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+            Expanded(
               child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.amberAccent,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    )),
-
+                width: 400,
                 height: 200,
-                // color: Colors.amberAccent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: SizedBox(
-                        height: 100,
-                        width: 150,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.red,
+                      Colors.lightGreenAccent,
+                      Colors.greenAccent
+                    ],
+                    begin: FractionalOffset.topLeft,
+                    end: FractionalOffset.centerRight,
+                  ),
+                  // color: Colors.blueGrey[700],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
+                  ),
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 70,
+                        width: 350,
                         child: RaisedButton(
-                          elevation: 20,
+                          elevation: 50,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          color: Colors.lightGreenAccent,
-                          splashColor: Colors.lightGreenAccent[100],
+                          color: Colors.blueAccent,
                           child: Text(
-                            'Apply For Advance',
+                            'Daily Attendance',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EmployeeAttendance()));
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 70,
+                        width: 350,
+                        child: RaisedButton(
+                          elevation: 50,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.blueAccent,
+                          child: Text(
+                            'Advance Application From',
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -97,20 +134,18 @@ class _EmployeePortalState extends State<EmployeePortal> {
                           },
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                      width: 150,
-                      child: Container(
+                      SizedBox(
+                        height: 70,
+                        width: 350,
                         child: RaisedButton(
-                          elevation: 20,
+                          elevation: 50,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          color: Colors.lightGreenAccent,
+                          color: Colors.deepPurpleAccent,
                           splashColor: Colors.lightGreenAccent[100],
                           child: Text(
-                            'Apply For Leave',
+                            'Leave Application From',
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -125,84 +160,8 @@ class _EmployeePortalState extends State<EmployeePortal> {
                           },
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.amberAccent,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    )),
-
-                height: 200,
-                // color: Colors.amberAccent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: SizedBox(
-                        height: 100,
-                        width: 150,
-                        child: RaisedButton(
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: Colors.lightGreenAccent,
-                          splashColor: Colors.lightGreenAccent[100],
-                          child: Text(
-                            'Advance Status',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             AdvanceApplicationForm()));
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                      width: 150,
-                      child: Container(
-                        child: RaisedButton(
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: Colors.lightGreenAccent,
-                          splashColor: Colors.lightGreenAccent[100],
-                          child: Text(
-                            'Leave Status',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             LeaveApplicationForm()));
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

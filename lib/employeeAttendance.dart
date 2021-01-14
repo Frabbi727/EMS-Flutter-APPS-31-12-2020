@@ -9,22 +9,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_m_s/employeePortal.dart';
 
-class AdvanceApplicationForm extends StatefulWidget {
+class EmployeeAttendance extends StatefulWidget {
   @override
-  _AdvanceApplicationFormState createState() => _AdvanceApplicationFormState();
+  _EmployeeAttendanceState createState() => _EmployeeAttendanceState();
 }
 
-class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
+class _EmployeeAttendanceState extends State<EmployeeAttendance> {
   //////////////////////////////////////////////////////
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   User loggedInUser;
   String email;
   String password;
-  String amount;
-  String reason;
-  String applyDate;
-  String applyTime;
+  String date;
+  String time;
+  String status;
 
   @override
   void initState() {
@@ -73,7 +72,7 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                       borderRadius: BorderRadius.circular(30),
                     )),
                     child: Text(
-                      applyDate = 'Date: ${now.day}/${now.month}/${now.year}',
+                      date = 'Date: ${now.day}/${now.month}/${now.year}',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.black,
@@ -94,7 +93,7 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                       borderRadius: BorderRadius.circular(30),
                     )),
                     child: Text(
-                      applyTime = ' Time :  ${now.hour}:${now.minute}',
+                      time = ' Time :  ${now.hour}:${now.minute}',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.black,
@@ -104,28 +103,6 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                 ),
                 SizedBox(
                   height: 20,
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  decoration: (BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  )),
-                  child: TextField(
-                    onChanged: (value) {
-                      amount = value;
-                    },
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      fillColor: Colors.white,
-                      labelText: 'Advance Amount',
-                      hintStyle: TextStyle(color: Colors.black),
-                      prefixIcon: Icon(
-                        Icons.money,
-                        color: Colors.lightGreen[800],
-                      ),
-                    ),
-                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -138,23 +115,23 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                   )),
                   child: DropdownButton(
                     hint: Text(
-                      'Reason',
+                      'Attendance',
                     ),
                     onChanged: (val) {
                       print(val);
                       setState(() {
-                        this.reason = val;
+                        this.status = val;
                       });
                     },
-                    value: this.reason,
+                    value: this.status,
                     items: [
                       DropdownMenuItem(
-                        child: Text('Loan'),
-                        value: 'Loan',
+                        child: Text('Present'),
+                        value: 'Present',
                       ),
                       DropdownMenuItem(
-                        child: Text('Others'),
-                        value: 'Others',
+                        child: Text('On Leave'),
+                        value: 'On Leave',
                       )
                     ],
                   ),
@@ -183,23 +160,21 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                           ),
                         ),
                         onPressed: () async {
-                          print(amount);
-                          print(reason);
-                          print(applyDate);
+                          print(date);
+                          print(time);
+                          print(status);
 
                           try {
                             final newAP = _firestore
                                 .collection('Employee')
                                 .doc(loggedInUser.uid)
-                                .collection('AdvanceApplication')
+                                .collection('Attendance')
                                 .add({
-                              'Amount': amount,
-                              'Reason': reason,
-                              'ApplyDate': applyDate,
-                              'ApplyTime': applyTime,
+                              'AttendanceDate': date,
+                              'AttendanceTime': time,
                               'Email': loggedInUser.email,
                               'Employeeid': loggedInUser.uid,
-                              'isApproved': false
+                              'AttendanceStatus': status,
                             });
 
                             if (newAP != null) {

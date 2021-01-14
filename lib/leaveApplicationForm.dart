@@ -226,30 +226,8 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                      height: 50,
-                      width: 150,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        elevation: 10,
-                        color: Colors.lightGreenAccent,
-                        splashColor: Colors.white,
-                        child: Text(
-                          'Save As Draft',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onPressed: () {
-                          //Do something Here
-                        },
-                      ),
-                    ),
                     SizedBox(
                       height: 50,
                       width: 150,

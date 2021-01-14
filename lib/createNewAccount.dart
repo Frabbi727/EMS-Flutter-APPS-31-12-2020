@@ -498,11 +498,15 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                 }
 
                                 print('Its good to go');
-                              } catch (e) {
+                              }
+                              //Try
+                              catch (e) {
                                 print('Its not working');
                               }
+                              // Catch
                             }
                           },
+                          //On press
                         ),
                       ),
                     ],

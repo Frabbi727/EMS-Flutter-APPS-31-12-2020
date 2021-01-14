@@ -6,6 +6,7 @@ import 'leaveApplicationDetailsEmployee.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_m_s/employeeProfile.dart';
+import 'package:e_m_s/attendanceDetailsEmployee.dart';
 
 class EmployeeDrawer extends StatefulWidget {
   @override
@@ -43,123 +44,152 @@ class _EmployeeDrawerState extends State<EmployeeDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(20),
-              color: Colors.lightGreen[300],
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: AssetImage('images/image1.png'),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ],
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: <Widget>[
+              // Container(
+              //   width: double.infinity,
+              //   padding: EdgeInsets.all(20),
+              //   color: Colors.lightGreen[300],
+              //   child: Center(
+              //     child: Column(
+              //       children: <Widget>[
+              //         Container(
+              //           width: 100,
+              //           height: 100,
+              //           decoration: BoxDecoration(
+              //             shape: BoxShape.circle,
+              //             image: DecorationImage(
+              //               image: AssetImage('images/image1.png'),
+              //               fit: BoxFit.fill,
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+
+              ListTile(
+                leading: Icon(
+                  Icons.person,
+                  color: Colors.lightGreen[800],
+                ),
+                onTap: () {
+                  print(loggedInUser.email);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmployeeProfile()));
+                },
+                title: Text(
+                  'Profile',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.person,
-                color: Colors.lightGreen[800],
+              ListTile(
+                leading: Icon(
+                  Icons.present_to_all,
+                  color: Colors.lightGreen[800],
+                ),
+                onTap: () {
+                  print(loggedInUser.email);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AttendanceDetails()));
+                },
+                title: Text(
+                  'Regular Attendance',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-              onTap: () {
-                print(loggedInUser.email);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EmployeeProfile()));
-              },
-              title: Text(
-                'Profile',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+              ListTile(
+                leading: Icon(
+                  Icons.file_copy,
+                  color: Colors.lightGreen[800],
+                ),
+                onTap: () {
+                  print(loggedInUser.email);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LeaveApplicationsDetails()));
+                },
+                title: Text(
+                  'Leave Applications Details',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.file_copy,
-                color: Colors.lightGreen[800],
+              ListTile(
+                leading: Icon(
+                  Icons.file_copy,
+                  color: Colors.lightGreen[800],
+                ),
+                onTap: () {
+                  print(loggedInUser.email);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AdvanceApplicationsDetails()));
+                },
+                title: Text(
+                  'Advance Applications Details',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-              onTap: () {
-                print(loggedInUser.email);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LeaveApplicationsDetails()));
-              },
-              title: Text(
-                'Leave Applications Details',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+              SizedBox(
+                height: 50,
               ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.file_copy,
-                color: Colors.lightGreen[800],
-              ),
-              onTap: () {
-                print(loggedInUser.email);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AdvanceApplicationsDetails()));
-              },
-              title: Text(
-                'Advance Applications Details',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Center(
-                child: SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    elevation: 10,
-                    color: Colors.lightGreenAccent,
-                    splashColor: Colors.white,
-                    child: Text(
-                      'Sign Out',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+              Container(
+                alignment: Alignment.center,
+                child: Center(
+                  child: SizedBox(
+                    height: 50,
+                    width: 150,
+                    child: Container(
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        elevation: 10,
+                        color: Colors.lightGreenAccent,
+                        splashColor: Colors.white,
+                        child: Text(
+                          'Sign Out',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () {
+                          //New add
+                          _auth.signOut();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        },
                       ),
                     ),
-                    onPressed: () {
-                      //New add
-                      _auth.signOut();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
-                    },
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
