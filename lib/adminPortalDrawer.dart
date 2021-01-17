@@ -182,7 +182,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.push(context,
+                      Navigator.pop(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
                     },
                   ),
