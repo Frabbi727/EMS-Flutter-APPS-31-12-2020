@@ -87,23 +87,23 @@ class _AdminDrawerState extends State<AdminDrawer> {
             //   child: Text("${loggedInUser.email}"),
             // ),
 
-            ListTile(
-              leading: Icon(
-                Icons.person,
-                color: Colors.lightGreen[800],
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AdminProfile()));
-              },
-              title: Text(
-                'Profile',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
+            // ListTile(
+            //   leading: Icon(
+            //     Icons.person,
+            //     color: Colors.lightGreen[800],
+            //   ),
+            //   onTap: () {
+            //     Navigator.push(context,
+            //         MaterialPageRoute(builder: (context) => AdminProfile()));
+            //   },
+            //   title: Text(
+            //     'Profile',
+            //     style: TextStyle(
+            //         fontSize: 20,
+            //         color: Colors.black,
+            //         fontWeight: FontWeight.bold),
+            //   ),
+            // ),
             ListTile(
               leading: Icon(
                 Icons.present_to_all,

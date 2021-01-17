@@ -65,23 +65,36 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
               DataCell(Text(doc.data()['ApplyDate'])),
               DataCell(Text(doc.data()['ApplyTime'])),
               DataCell(Text(doc.data()['Reason'])),
-              DataCell(IconButton(
-                icon: doc.data()['isApproved']
-                    ? Icon(
-                        Icons.done_outline_sharp,
-                        color: Colors.green,
-                      )
-                    : Icon(
-                        Icons.pending,
-                        color: Colors.red,
+              DataCell(
+                Container(
+                  padding: EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  decoration: (BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                  )),
+                  ////Gender Go Here
+                  child: DropdownButton(
+                    elevation: 10,
+                    onChanged: (val) {
+                      print(val);
+                      setState(() {});
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        child: Text('Approved'),
+                        value: 'Approved',
                       ),
-                onPressed: () async {
-                  await documentSnapshot
-                      .data()
-                      .update('isApproved', (value) => true);
-                  print('approving');
-                },
-              )),
+                      DropdownMenuItem(
+                        child: Text(
+                          'Pending',
+                        ),
+                        value: 'Pending',
+                      )
+                    ],
+                  ),
+                ),
+              ),
               DataCell(IconButton(
                 icon: Icon(
                   Icons.delete,
@@ -144,7 +157,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
                         new DataColumn(label: Text('Apply Date')),
                         new DataColumn(label: Text('Time')),
                         new DataColumn(label: Text('Reason')),
-                        new DataColumn(label: Text('Approval')),
+                        new DataColumn(label: Text('Status')),
                         new DataColumn(label: Text(' ')),
                       ],
                       rows: _createRows(snapshot.data),
@@ -172,34 +185,47 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
             DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),
             DataCell(Text(documentSnapshot.data()['Reason'].toString())),
-            DataCell(IconButton(
-              icon: documentSnapshot.data()['isApproved']
-                  ? Icon(
-                      Icons.done_outline_sharp,
-                      color: Colors.green,
-                    )
-                  : Icon(
-                      Icons.pending,
-                      color: Colors.red,
-                    ),
-              onPressed: () {
-                bool approve = true;
-                String employeeId = documentSnapshot.data()['Employeeid'];
-
-                print(documentSnapshot.id);
-                print(documentSnapshot.data()['Employeeid']);
-                FirebaseFirestore.instance
-                    .collection('Employee')
-                    .doc(employeeId)
-                    .collection('AdvanceApplication')
-                    .doc(documentSnapshot.id)
-                    .update({'isApproved': approve}).then((value) {
-                  print('success');
-                });
-
-                //documentSnapshot.data()['isApproved'].update({});
-                print('approving');
+            DataCell(DropdownButton(
+              elevation: 10,
+              hint: Text('${documentSnapshot.data()['isApproved']}'),
+              onChanged: (val) {
+                print(val);
+                setState(() {});
               },
+              items: [
+                DropdownMenuItem(
+                  child: Text('Approve'),
+                  value: 'Approve',
+                  onTap: () {
+                    String employeeId = documentSnapshot.data()['Employeeid'];
+                    FirebaseFirestore.instance
+                        .collection('Employee')
+                        .doc(employeeId)
+                        .collection('AdvanceApplication')
+                        .doc(documentSnapshot.id)
+                        .update({'isApproved': 'approved'}).then((value) {
+                      print('success');
+                    });
+                  },
+                ),
+                DropdownMenuItem(
+                  child: Text(
+                    'Decline',
+                  ),
+                  value: 'Decline',
+                  onTap: () {
+                    String employeeId = documentSnapshot.data()['Employeeid'];
+                    FirebaseFirestore.instance
+                        .collection('Employee')
+                        .doc(employeeId)
+                        .collection('AdvanceApplication')
+                        .doc(documentSnapshot.id)
+                        .update({'isApproved': 'declined'}).then((value) {
+                      print('success');
+                    });
+                  },
+                )
+              ],
             )),
             DataCell(IconButton(
               icon: Icon(

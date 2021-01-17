@@ -61,7 +61,7 @@ class _AdvanceDetailsState extends State<AdvanceDetails> {
               DataCell(Text(doc.data()['ApplyDate'])),
               DataCell(Text(doc.data()['ApplyTime'])),
               DataCell(Text(doc.data()['Reason'])),
-              // DataCell(Text(doc.data()['isApproved'])),
+              DataCell(Text(doc.data()['isApproved'])),
             ],
           );
         },
@@ -117,7 +117,7 @@ class _AdvanceDetailsState extends State<AdvanceDetails> {
                         new DataColumn(label: Text('Apply Date')),
                         new DataColumn(label: Text('Time')),
                         new DataColumn(label: Text('Reason')),
-                        // new DataColumn(label: Text('Status')),
+                        new DataColumn(label: Text('Status')),
                       ],
                       rows: _createRows(snapshot.data),
                     );
@@ -144,7 +144,7 @@ class _AdvanceDetailsState extends State<AdvanceDetails> {
             DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),
             DataCell(Text(documentSnapshot.data()['Reason'].toString())),
-            // DataCell(Text(documentSnapshot.data()['isApproved'].toString())),
+            DataCell(Text(documentSnapshot.data()['isApproved'].toString())),
           ],
         );
       },

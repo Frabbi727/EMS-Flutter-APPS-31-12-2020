@@ -124,14 +124,14 @@ class _AdvanceApplicationsDetailsState
   List<DataRow> _createRows(QuerySnapshot snapshot) {
     List<DataRow> newList =
         snapshot.docs.map((DocumentSnapshot documentSnapshot) {
-      bool check = documentSnapshot.data()['isApproved'];
+      String check = documentSnapshot.data()['isApproved'];
       return new DataRow(cells: [
         DataCell(Text(documentSnapshot.data()['EmployeeName'].toString())),
         DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
         DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),
         DataCell(Text(documentSnapshot.data()['Amount'].toString())),
         DataCell(Text(documentSnapshot.data()['Reason'].toString())),
-        check ? DataCell(Text('Approved')) : DataCell(Text('Pending')),
+        DataCell(Text('$check')),
         DataCell(
           IconButton(
             icon: Icon(

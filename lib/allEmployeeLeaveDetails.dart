@@ -62,6 +62,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
               DataCell(Text(doc.data()['StartDate'])),
               DataCell(Text(doc.data()['EndDate'])),
               DataCell(Text(doc.data()['Reason'])),
+              DataCell(Text(doc.data()['isApproved'])),
             ],
           );
         },
@@ -118,6 +119,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
                         new DataColumn(label: Text('Start Date')),
                         new DataColumn(label: Text('End Date')),
                         new DataColumn(label: Text('Reason')),
+                        new DataColumn(label: Text('Status')),
                       ],
                       rows: _createRows(snapshot.data),
                     );
@@ -145,6 +147,7 @@ class _LeaveDetailsState extends State<LeaveDetails> {
             DataCell(Text(documentSnapshot.data()['StartDate'].toString())),
             DataCell(Text(documentSnapshot.data()['EndDate'].toString())),
             DataCell(Text(documentSnapshot.data()['Reason'].toString())),
+            DataCell(Text(documentSnapshot.data()['isApproved'].toString())),
           ],
         );
       },

@@ -187,6 +187,7 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                           print(reason);
                           print(applyDate);
                           String employeeName;
+                          String status = 'pending';
                           await FirebaseFirestore.instance
                               .collection('Employee')
                               .doc(loggedInUser.uid)
@@ -208,7 +209,7 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                               'ApplyTime': applyTime,
                               'Email': loggedInUser.email,
                               'Employeeid': loggedInUser.uid,
-                              'isApproved': false,
+                              'isApproved': status,
                               'EmployeeName': employeeName,
                             });
 

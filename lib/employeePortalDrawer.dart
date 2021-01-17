@@ -84,26 +84,26 @@ class _EmployeeDrawerState extends State<EmployeeDrawer> {
               Container(
                 child: Text(''),
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.person,
-                  color: Colors.lightGreen[800],
-                ),
-                onTap: () {
-                  print(loggedInUser.email);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EmployeeProfile()));
-                },
-                title: Text(
-                  'Profile',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
+              // ListTile(
+              //   leading: Icon(
+              //     Icons.person,
+              //     color: Colors.lightGreen[800],
+              //   ),
+              //   onTap: () {
+              //     print(loggedInUser.email);
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => EmployeeProfile()));
+              //   },
+              //   title: Text(
+              //     'Profile',
+              //     style: TextStyle(
+              //         fontSize: 20,
+              //         color: Colors.black,
+              //         fontWeight: FontWeight.bold),
+              //   ),
+              // ),
               ListTile(
                 leading: Icon(
                   Icons.present_to_all,

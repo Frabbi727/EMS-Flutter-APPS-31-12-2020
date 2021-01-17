@@ -249,6 +249,7 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                           print(loggedInUser.uid);
                           print(loggedInUser.email);
                           String employeeName;
+                          String status = 'pending';
                           await FirebaseFirestore.instance
                               .collection('Employee')
                               .doc(loggedInUser.uid)
@@ -272,7 +273,7 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                               'Email': loggedInUser.email,
                               'Employeeid': loggedInUser.uid,
                               'EmployeeName': employeeName,
-                              'isApproved': false,
+                              'isApproved': status,
                             });
                             if (newLA != null) {
                               Navigator.push(
