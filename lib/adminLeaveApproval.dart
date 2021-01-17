@@ -199,14 +199,28 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                     style: TextStyle(color: Colors.green),
                   ),
                   value: 'Approve',
-                  onTap: () {
+                  onTap: () async {
+                    ////
+                    String AdminName;
+                    await FirebaseFirestore.instance
+                        .collection('Admin')
+                        .doc(loggedInUser.uid)
+                        .get()
+                        .then((value) {
+                      AdminName = value.data()['Name'];
+                      print('${value.data()['Name']}');
+                    });
+
+                    ////
                     String employeeId = documentSnapshot.data()['Employeeid'];
                     FirebaseFirestore.instance
                         .collection('Employee')
                         .doc(employeeId)
                         .collection('LeaveApplication')
                         .doc(documentSnapshot.id)
-                        .update({'isApproved': 'approved'}).then((value) {
+                        .update({
+                      'isApproved': 'approved by: ${AdminName} '
+                    }).then((value) {
                       print('success');
                     });
                   },
@@ -217,14 +231,28 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                     style: TextStyle(color: Colors.red),
                   ),
                   value: 'Decline',
-                  onTap: () {
+                  onTap: () async {
+                    ////
+                    String AdminName;
+                    await FirebaseFirestore.instance
+                        .collection('Admin')
+                        .doc(loggedInUser.uid)
+                        .get()
+                        .then((value) {
+                      AdminName = value.data()['Name'];
+                      print('${value.data()['Name']}');
+                    });
+
+                    ////
                     String employeeId = documentSnapshot.data()['Employeeid'];
                     FirebaseFirestore.instance
                         .collection('Employee')
                         .doc(employeeId)
                         .collection('LeaveApplication')
                         .doc(documentSnapshot.id)
-                        .update({'isApproved': 'declined'}).then((value) {
+                        .update({
+                      'isApproved': 'declined by: ${AdminName}'
+                    }).then((value) {
                       print('success');
                     });
                   },

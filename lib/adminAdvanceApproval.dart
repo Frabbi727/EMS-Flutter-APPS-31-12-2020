@@ -196,14 +196,28 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
                 DropdownMenuItem(
                   child: Text('Approve'),
                   value: 'Approve',
-                  onTap: () {
+                  onTap: () async {
+                    String AdminName;
+                    ////
+                    await FirebaseFirestore.instance
+                        .collection('Admin')
+                        .doc(loggedInUser.uid)
+                        .get()
+                        .then((value) {
+                      AdminName = value.data()['Name'];
+                      print('${value.data()['Name']}');
+                    });
+
+                    ////
                     String employeeId = documentSnapshot.data()['Employeeid'];
                     FirebaseFirestore.instance
                         .collection('Employee')
                         .doc(employeeId)
                         .collection('AdvanceApplication')
                         .doc(documentSnapshot.id)
-                        .update({'isApproved': 'approved'}).then((value) {
+                        .update({
+                      'isApproved': 'approved by: ${AdminName}'
+                    }).then((value) {
                       print('success');
                     });
                   },
@@ -213,14 +227,28 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
                     'Decline',
                   ),
                   value: 'Decline',
-                  onTap: () {
+                  onTap: () async {
+                    String AdminName;
+                    ////
+                    await FirebaseFirestore.instance
+                        .collection('Admin')
+                        .doc(loggedInUser.uid)
+                        .get()
+                        .then((value) {
+                      AdminName = value.data()['Name'];
+                      print('${value.data()['Name']}');
+                    });
+
+                    ////
                     String employeeId = documentSnapshot.data()['Employeeid'];
                     FirebaseFirestore.instance
                         .collection('Employee')
                         .doc(employeeId)
                         .collection('AdvanceApplication')
                         .doc(documentSnapshot.id)
-                        .update({'isApproved': 'declined'}).then((value) {
+                        .update({
+                      'isApproved': 'declined by: ${AdminName} '
+                    }).then((value) {
                       print('success');
                     });
                   },
