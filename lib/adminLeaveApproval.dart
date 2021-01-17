@@ -56,6 +56,7 @@ class _LeaveApprovalState extends State<LeaveApproval> {
           print(documentSnapshot.id);
           DataRow(
             cells: [
+              DataCell(Text(doc.data()['EmployeeName'])),
               DataCell(Text(doc.data()['Email'])),
               DataCell(Text(doc.data()['ApplyDate'])),
               DataCell(Text(doc.data()['ApplyTime'])),
@@ -135,13 +136,14 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                     if (!snapshot.hasData) return new Text('Loading...');
                     return new DataTable(
                       columns: <DataColumn>[
+                        new DataColumn(label: Text('Employee Name')),
                         new DataColumn(label: Text('Email')),
                         new DataColumn(label: Text('Apply Date')),
                         new DataColumn(label: Text('Time')),
                         new DataColumn(label: Text('Start Date')),
                         new DataColumn(label: Text('End Date')),
                         new DataColumn(label: Text('Reason')),
-                        new DataColumn(label: Text(' ')),
+                        new DataColumn(label: Text('Approval')),
                         new DataColumn(label: Text(' ')),
                       ],
                       rows: _createRows(snapshot.data),
@@ -163,6 +165,7 @@ class _LeaveApprovalState extends State<LeaveApproval> {
         print('Data list');
         return new DataRow(
           cells: [
+            DataCell(Text(documentSnapshot.data()['EmployeeName'].toString())),
             DataCell(Text(documentSnapshot.data()['Email'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),

@@ -65,31 +65,31 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: GestureDetector(
-                      onTap: getImage,
-                      child: CircleAvatar(
-                        radius: 80,
-                        backgroundColor: Colors.amberAccent,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: _image == null
-                                    ? MemoryImage(kTransparentImage)
-                                    : FileImage(_image),
-                                fit: BoxFit.fill),
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.add_a_photo,
-                              size: 35,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.only(top: 10),
+                  //   child: GestureDetector(
+                  //     onTap: getImage,
+                  //     child: CircleAvatar(
+                  //       radius: 80,
+                  //       backgroundColor: Colors.amberAccent,
+                  //       child: DecoratedBox(
+                  //         decoration: BoxDecoration(
+                  //           image: DecorationImage(
+                  //               image: _image == null
+                  //                   ? MemoryImage(kTransparentImage)
+                  //                   : FileImage(_image),
+                  //               fit: BoxFit.fill),
+                  //         ),
+                  //         child: IconButton(
+                  //           icon: Icon(
+                  //             Icons.add_a_photo,
+                  //             size: 35,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 20,
                   ),
@@ -263,6 +263,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                     )),
                     ////Gender Go Here
                     child: DropdownButton(
+                      elevation: 10,
                       hint: Text(
                         'Gender',
                       ),
@@ -279,7 +280,9 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                           value: 'Male',
                         ),
                         DropdownMenuItem(
-                          child: Text('Female'),
+                          child: Text(
+                            'Female',
+                          ),
                           value: 'Female',
                         )
                       ],

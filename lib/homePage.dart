@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Center(
                 child: Container(
+                  margin: EdgeInsets.only(top: 20),
                   child: CircleAvatar(
                     radius: 80,
                     backgroundImage: AssetImage('images/image1.png'),

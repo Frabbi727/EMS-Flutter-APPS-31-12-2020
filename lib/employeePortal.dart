@@ -64,8 +64,8 @@ class _EmployeePortalState extends State<EmployeePortal> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.red,
-                      Colors.lightGreenAccent,
+                      Colors.teal,
+                      Colors.blueAccent[100],
                       Colors.greenAccent
                     ],
                     begin: FractionalOffset.topLeft,
@@ -92,10 +92,11 @@ class _EmployeePortalState extends State<EmployeePortal> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          color: Colors.blueAccent,
+                          color: Colors.lightGreen[200],
                           child: Text(
                             'Daily Attendance',
                             style: TextStyle(
+                              fontSize: 20,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
@@ -117,10 +118,11 @@ class _EmployeePortalState extends State<EmployeePortal> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          color: Colors.blueAccent,
+                          color: Colors.orangeAccent[100],
                           child: Text(
                             'Advance Application From',
                             style: TextStyle(
+                              fontSize: 20,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
@@ -142,11 +144,11 @@ class _EmployeePortalState extends State<EmployeePortal> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          color: Colors.deepPurpleAccent,
-                          splashColor: Colors.lightGreenAccent[100],
+                          color: Colors.cyan[200],
                           child: Text(
                             'Leave Application From',
                             style: TextStyle(
+                              fontSize: 20,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),

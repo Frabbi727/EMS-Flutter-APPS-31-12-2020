@@ -163,6 +163,14 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
                           print(date);
                           print(time);
                           print(status);
+                          String employeeName;
+                          await FirebaseFirestore.instance
+                              .collection('Employee')
+                              .doc(loggedInUser.uid)
+                              .get()
+                              .then((value) {
+                            employeeName = value.data()['Name'];
+                          });
 
                           try {
                             final newAP = _firestore
@@ -175,6 +183,7 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
                               'Email': loggedInUser.email,
                               'Employeeid': loggedInUser.uid,
                               'AttendanceStatus': status,
+                              'EmployeeName': employeeName,
                             });
 
                             if (newAP != null) {

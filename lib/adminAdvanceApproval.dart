@@ -21,7 +21,9 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
   User loggedInUser;
   String email;
   String password;
-  String apv = 'aproved';
+  String approved;
+  String rejected;
+  String status;
 
   @override
   void initState() {
@@ -57,6 +59,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
           print(documentSnapshot.id);
           DataRow(
             cells: [
+              DataCell(Text(doc.data()['EmployeeName'])),
               DataCell(Text(doc.data()['Email'])),
               DataCell(Text(doc.data()['Amount'])),
               DataCell(Text(doc.data()['ApplyDate'])),
@@ -100,7 +103,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.greenAccent[50],
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
         title: Text(
@@ -135,12 +138,13 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
                     if (!snapshot.hasData) return new Text('Loading...');
                     return new DataTable(
                       columns: <DataColumn>[
+                        new DataColumn(label: Text('Employee Name')),
                         new DataColumn(label: Text('Email')),
                         new DataColumn(label: Text('Amount')),
                         new DataColumn(label: Text('Apply Date')),
                         new DataColumn(label: Text('Time')),
                         new DataColumn(label: Text('Reason')),
-                        new DataColumn(label: Text(' ')),
+                        new DataColumn(label: Text('Approval')),
                         new DataColumn(label: Text(' ')),
                       ],
                       rows: _createRows(snapshot.data),
@@ -162,6 +166,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
         print('Data list');
         return new DataRow(
           cells: [
+            DataCell(Text(documentSnapshot.data()['EmployeeName'].toString())),
             DataCell(Text(documentSnapshot.data()['Email'].toString())),
             DataCell(Text(documentSnapshot.data()['Amount'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
@@ -201,7 +206,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
                 Icons.delete,
                 color: Colors.red,
               ),
-              onPressed: () {
+              onPressed: () async {
                 String employeeId = documentSnapshot.data()['Employeeid'];
                 FirebaseFirestore.instance
                     .collection('Employee')
@@ -210,7 +215,7 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
                     .doc(documentSnapshot.id)
                     .delete();
               },
-            ))
+            )),
           ],
         );
       },

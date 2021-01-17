@@ -97,10 +97,11 @@ class _AdminPortalState extends State<AdminPortal> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          color: Colors.deepOrangeAccent,
+                          color: Colors.deepOrangeAccent[100],
                           child: Text(
                             'Advance Applications',
                             style: TextStyle(
+                              fontSize: 20,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
@@ -122,11 +123,11 @@ class _AdminPortalState extends State<AdminPortal> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          color: Colors.deepOrange,
-                          splashColor: Colors.lightGreenAccent[100],
+                          color: Colors.lightGreenAccent[100],
                           child: Text(
                             'Leave Applications',
                             style: TextStyle(
+                              fontSize: 20,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
@@ -148,10 +149,11 @@ class _AdminPortalState extends State<AdminPortal> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
-                            color: Colors.redAccent,
+                            color: Colors.blueGrey[200],
                             child: Text(
                               'All Employee Details',
                               style: TextStyle(
+                                fontSize: 20,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),

@@ -186,6 +186,15 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                           print(amount);
                           print(reason);
                           print(applyDate);
+                          String employeeName;
+                          await FirebaseFirestore.instance
+                              .collection('Employee')
+                              .doc(loggedInUser.uid)
+                              .get()
+                              .then((value) {
+                            employeeName = value.data()['Name'];
+                            print('${value.data()['Name']}');
+                          });
 
                           try {
                             final newAP = _firestore
@@ -199,7 +208,8 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                               'ApplyTime': applyTime,
                               'Email': loggedInUser.email,
                               'Employeeid': loggedInUser.uid,
-                              'isApproved': false
+                              'isApproved': false,
+                              'EmployeeName': employeeName,
                             });
 
                             if (newAP != null) {

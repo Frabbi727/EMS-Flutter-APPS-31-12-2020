@@ -48,29 +48,42 @@ class _EmployeeDrawerState extends State<EmployeeDrawer> {
         body: SafeArea(
           child: Column(
             children: <Widget>[
-              // Container(
-              //   width: double.infinity,
-              //   padding: EdgeInsets.all(20),
-              //   color: Colors.lightGreen[300],
-              //   child: Center(
-              //     child: Column(
-              //       children: <Widget>[
-              //         Container(
-              //           width: 100,
-              //           height: 100,
-              //           decoration: BoxDecoration(
-              //             shape: BoxShape.circle,
-              //             image: DecorationImage(
-              //               image: AssetImage('images/image1.png'),
-              //               fit: BoxFit.fill,
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.lightGreen,
+                      Colors.blueGrey[200],
+                      Colors.greenAccent,
+                    ],
+                    begin: FractionalOffset.topLeft,
+                    end: FractionalOffset.centerRight,
+                  ),
+                ),
+                width: double.infinity,
+                padding: EdgeInsets.all(20),
+                // color: Colors.lightGreen[300],
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          'Employee',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 20),
+                        ),
+                        width: 100,
+                        height: 50,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                child: Text(''),
+              ),
               ListTile(
                 leading: Icon(
                   Icons.person,

@@ -29,7 +29,6 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
   String startDate;
   String endDate;
   String reason;
-  int selectedIndex = -1;
 
   @override
   void initState() {
@@ -104,6 +103,7 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
                       if (!snapshot.hasData) return new Text('Loading...');
                       return new DataTable(
                         columns: <DataColumn>[
+                          new DataColumn(label: Text('Name')),
                           new DataColumn(label: Text('Apply Date')),
                           new DataColumn(label: Text('Apply Time')),
                           new DataColumn(label: Text('Start Date')),
@@ -130,6 +130,7 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
         bool check = documentSnapshot.data()['isApproved'];
         return new DataRow(
           cells: [
+            DataCell(Text(documentSnapshot.data()['EmployeeName'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),
             DataCell(Text(documentSnapshot.data()['StartDate'].toString())),

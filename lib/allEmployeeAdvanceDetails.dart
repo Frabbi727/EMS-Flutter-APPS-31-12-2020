@@ -55,6 +55,7 @@ class _AdvanceDetailsState extends State<AdvanceDetails> {
           print(documentSnapshot.id);
           DataRow(
             cells: [
+              DataCell(Text(doc.data()['EmployeeName'])),
               DataCell(Text(doc.data()['Email'])),
               DataCell(Text(doc.data()['Amount'])),
               DataCell(Text(doc.data()['ApplyDate'])),
@@ -110,6 +111,7 @@ class _AdvanceDetailsState extends State<AdvanceDetails> {
                     if (!snapshot.hasData) return new Text('Loading...');
                     return new DataTable(
                       columns: <DataColumn>[
+                        new DataColumn(label: Text('Employee Name')),
                         new DataColumn(label: Text('Email')),
                         new DataColumn(label: Text('Amount')),
                         new DataColumn(label: Text('Apply Date')),
@@ -136,6 +138,7 @@ class _AdvanceDetailsState extends State<AdvanceDetails> {
         print('Data list');
         return new DataRow(
           cells: [
+            DataCell(Text(documentSnapshot.data()['EmployeeName'].toString())),
             DataCell(Text(documentSnapshot.data()['Email'].toString())),
             DataCell(Text(documentSnapshot.data()['Amount'].toString())),
             DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),

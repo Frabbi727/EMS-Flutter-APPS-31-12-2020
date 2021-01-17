@@ -248,6 +248,15 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                         onPressed: () async {
                           print(loggedInUser.uid);
                           print(loggedInUser.email);
+                          String employeeName;
+                          await FirebaseFirestore.instance
+                              .collection('Employee')
+                              .doc(loggedInUser.uid)
+                              .get()
+                              .then((value) {
+                            employeeName = value.data()['Name'];
+                            print('${value.data()['Name']}');
+                          });
 
                           try {
                             final newLA = await _firestore
@@ -262,6 +271,7 @@ class _LeaveApplicationFormState extends State<LeaveApplicationForm> {
                               'Reason': reason,
                               'Email': loggedInUser.email,
                               'Employeeid': loggedInUser.uid,
+                              'EmployeeName': employeeName,
                               'isApproved': false,
                             });
                             if (newLA != null) {

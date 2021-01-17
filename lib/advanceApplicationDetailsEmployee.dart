@@ -101,6 +101,7 @@ class _AdvanceApplicationsDetailsState
                           // new DataColumn(
                           //   label: Text('Serial'),
                           // ),
+                          new DataColumn(label: Text('Name')),
                           new DataColumn(label: Text('Apply Date')),
                           new DataColumn(label: Text('Apply Time')),
                           new DataColumn(label: Text('Amount')),
@@ -125,6 +126,7 @@ class _AdvanceApplicationsDetailsState
         snapshot.docs.map((DocumentSnapshot documentSnapshot) {
       bool check = documentSnapshot.data()['isApproved'];
       return new DataRow(cells: [
+        DataCell(Text(documentSnapshot.data()['EmployeeName'].toString())),
         DataCell(Text(documentSnapshot.data()['ApplyDate'].toString())),
         DataCell(Text(documentSnapshot.data()['ApplyTime'].toString())),
         DataCell(Text(documentSnapshot.data()['Amount'].toString())),

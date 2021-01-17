@@ -88,12 +88,12 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
                           // new DataColumn(
                           //   label: Text('Serial'),
                           // ),
-                          new DataColumn(label: Text('Name')),
-                          new DataColumn(label: Text('Phone')),
-                          new DataColumn(label: Text('Email')),
-                          new DataColumn(label: Text('Dob')),
-                          new DataColumn(label: Text('Phone')),
-                          new DataColumn(label: Text('Address')),
+                          // new DataColumn(label: Text('Name')),
+                          // new DataColumn(label: Text('Phone')),
+                          // new DataColumn(label: Text('Email')),
+                          // new DataColumn(label: Text('Dob')),
+                          // new DataColumn(label: Text('Phone')),
+                          // new DataColumn(label: Text('Address')),
                         ],
                         rows: _createRows(snapshot.data),
                       );
@@ -111,12 +111,12 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
     List<DataRow> newList =
         snapshot.docs.map((DocumentSnapshot documentSnapshot) {
       return new DataRow(cells: [
-        DataCell(Text(documentSnapshot.data()['Name'].toString())),
-        DataCell(Text(documentSnapshot.data()['Phone'].toString())),
-        DataCell(Text(documentSnapshot.data()['Email'].toString())),
-        DataCell(Text(documentSnapshot.data()['Dob'].toString())),
-        DataCell(Text(documentSnapshot.data()['Phone'].toString())),
-        DataCell(Text(documentSnapshot.data()['Address'].toString())),
+        // DataCell(Text(documentSnapshot.data()['Name'].toString())),
+        // DataCell(Text(documentSnapshot.data()['Phone'].toString())),
+        // DataCell(Text(documentSnapshot.data()['Email'].toString())),
+        // DataCell(Text(documentSnapshot.data()['Dob'].toString())),
+        // DataCell(Text(documentSnapshot.data()['Phone'].toString())),
+        // DataCell(Text(documentSnapshot.data()['Address'].toString())),
       ]);
     }).toList();
     return newList;

@@ -55,6 +55,7 @@ class _AllEmployeeAttendanceState extends State<AllEmployeeAttendance> {
           print(documentSnapshot.id);
           DataRow(
             cells: [
+              DataCell(Text(doc.data()['EmployeeName'])),
               DataCell(Text(doc.data()['Email'])),
               DataCell(Text(doc.data()['AttendanceDate'])),
               DataCell(Text(doc.data()['AttendanceTime'])),
@@ -107,6 +108,7 @@ class _AllEmployeeAttendanceState extends State<AllEmployeeAttendance> {
                     if (!snapshot.hasData) return new Text('Loading...');
                     return new DataTable(
                       columns: <DataColumn>[
+                        new DataColumn(label: Text('Employee Name')),
                         new DataColumn(label: Text('Email')),
                         new DataColumn(label: Text('Date')),
                         new DataColumn(label: Text('Time')),
@@ -131,6 +133,7 @@ class _AllEmployeeAttendanceState extends State<AllEmployeeAttendance> {
         print('Data list');
         return new DataRow(
           cells: [
+            DataCell(Text(documentSnapshot.data()['EmployeeName'].toString())),
             DataCell(Text(documentSnapshot.data()['Email'].toString())),
             DataCell(
                 Text(documentSnapshot.data()['AttendanceDate'].toString())),

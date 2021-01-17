@@ -99,6 +99,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
                           // new DataColumn(
                           //   label: Text('Serial'),
                           // ),
+                          new DataColumn(label: Text('Name')),
                           new DataColumn(label: Text('Date')),
                           new DataColumn(label: Text('Time')),
                           new DataColumn(label: Text('Status')),
@@ -120,6 +121,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
     List<DataRow> newList =
         snapshot.docs.map((DocumentSnapshot documentSnapshot) {
       return new DataRow(cells: [
+        DataCell(Text(documentSnapshot.data()['EmployeeName'].toString())),
         DataCell(Text(documentSnapshot.data()['AttendanceDate'].toString())),
         DataCell(Text(documentSnapshot.data()['AttendanceTime'].toString())),
         DataCell(Text(documentSnapshot.data()['AttendanceStatus'].toString())),
