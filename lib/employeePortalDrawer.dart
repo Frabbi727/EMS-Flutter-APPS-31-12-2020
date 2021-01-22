@@ -117,7 +117,7 @@ class _EmployeeDrawerState extends State<EmployeeDrawer> {
                           builder: (context) => AttendanceDetails()));
                 },
                 title: Text(
-                  'Regular Attendance',
+                  'Attendance Details',
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
@@ -137,7 +137,7 @@ class _EmployeeDrawerState extends State<EmployeeDrawer> {
                           builder: (context) => LeaveApplicationsDetails()));
                 },
                 title: Text(
-                  'Leave Applications Details',
+                  'Leave Applications Status',
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
@@ -157,7 +157,7 @@ class _EmployeeDrawerState extends State<EmployeeDrawer> {
                           builder: (context) => AdvanceApplicationsDetails()));
                 },
                 title: Text(
-                  'Advance Applications Details',
+                  'Advance Applications Status',
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,

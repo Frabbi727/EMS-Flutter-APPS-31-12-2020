@@ -182,8 +182,11 @@ class _AdminDrawerState extends State<AdminDrawer> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pop(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                      _auth.signOut();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomePage()));
                     },
                   ),
                 ),

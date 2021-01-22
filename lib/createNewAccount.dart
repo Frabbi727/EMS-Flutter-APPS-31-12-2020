@@ -53,7 +53,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
     DateTime now = new DateTime.now();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create New Account'),
+        title: Text('Registration'),
       ),
       backgroundColor: Colors.blueGrey,
       body: SafeArea(
@@ -147,9 +147,9 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         if (value.length < 6) {
                           return "Minimum 6 Digits";
                         }
-                        if (!RegExp('^[0-9]').hasMatch(value)) {
-                          return 'Only Digits (0-9)';
-                        }
+                        // if (!RegExp('^[0-9]').hasMatch(value)) {
+                        //   return 'Only Digits (0-9)';
+                        // }
 
                         return null;
                       },

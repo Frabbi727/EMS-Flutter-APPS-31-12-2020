@@ -52,7 +52,7 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black12,
-        title: Text('Advance Application Form'),
+        title: Text('Attendance'),
       ),
       backgroundColor: Colors.cyan,
       body: SingleChildScrollView(

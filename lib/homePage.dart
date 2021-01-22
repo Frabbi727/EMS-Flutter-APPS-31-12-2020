@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       // backgroundColor: Colors.indigoAccent[100],
       body: Container(
-        height: 1000,
+        height: 2000,
         width: 1000,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -138,9 +138,9 @@ class _HomePageState extends State<HomePage> {
                               if (value.length < 6) {
                                 return "Minimum 6 Digits";
                               }
-                              if (!RegExp('^[0-9]').hasMatch(value)) {
-                                return 'Only Digits (0-9)';
-                              }
+                              // if (!RegExp('^[0-9]').hasMatch(value)) {
+                              //   return 'Only Digits (0-9)';
+                              // }
 
                               return null;
                             },
@@ -202,7 +202,33 @@ class _HomePageState extends State<HomePage> {
                                   }
                                 });
                               } catch (e) {
-                                print('having some Problem');
+                                // print('having some Problem');
+                                String errorMessage;
+                                if (e.hashCode == 505284406) {
+                                  errorMessage = 'User Not Found';
+                                } else if (e.hashCode == 185768934) {
+                                  errorMessage = 'Wrong Password';
+                                } else if (e.hashCode == 38947693 ||
+                                    e.hashCode == 286357906) {
+                                  errorMessage = 'Email is incorrect';
+                                } else {
+                                  errorMessage = 'Please try after sometime';
+                                }
+                                return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Center(
+                                            child: Text('$errorMessage')),
+                                        actions: [
+                                          FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Try Again'))
+                                        ],
+                                      );
+                                    });
                               }
                             }
                           },
@@ -233,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           textColor: Colors.black,
                           child: Text(
-                            'Create new Account',
+                            'Create new account',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),

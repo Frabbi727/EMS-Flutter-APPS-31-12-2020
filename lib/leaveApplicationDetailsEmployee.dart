@@ -74,7 +74,7 @@ class _LeaveApplicationsDetailsState extends State<LeaveApplicationsDetails> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        backgroundColor: Colors.grey,
         title: Text(
           'Leave Details',
           style: TextStyle(color: Colors.white),

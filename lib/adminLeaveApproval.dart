@@ -114,9 +114,9 @@ class _LeaveApprovalState extends State<LeaveApproval> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.orangeAccent[100],
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        backgroundColor: Colors.orangeAccent,
         title: Text(
           'Leave Applications',
           style: TextStyle(color: Colors.white),
