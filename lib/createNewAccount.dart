@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_dropdown/flutter_dropdown.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class CreateNewAccount extends StatefulWidget {
   @override
@@ -32,6 +33,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   String Admin;
   String Employee;
   DateTime uploadDob;
+  bool isLoading = false;
 
   File _image;
 
@@ -53,468 +55,496 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
     DateTime now = new DateTime.now();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey[700],
         title: Text('Registration'),
       ),
       backgroundColor: Colors.blueGrey,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Form(
-              key: _formkey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // Container(
-                  //   margin: EdgeInsets.only(top: 10),
-                  //   child: GestureDetector(
-                  //     onTap: getImage,
-                  //     child: CircleAvatar(
-                  //       radius: 80,
-                  //       backgroundColor: Colors.amberAccent,
-                  //       child: DecoratedBox(
-                  //         decoration: BoxDecoration(
-                  //           image: DecorationImage(
-                  //               image: _image == null
-                  //                   ? MemoryImage(kTransparentImage)
-                  //                   : FileImage(_image),
-                  //               fit: BoxFit.fill),
-                  //         ),
-                  //         child: IconButton(
-                  //           icon: Icon(
-                  //             Icons.add_a_photo,
-                  //             size: 35,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    decoration: (BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                    child: TextFormField(
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return "Field cannot be empty";
-                        }
-                        if (!RegExp(
-                                '^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]+.[com]')
-                            .hasMatch(value)) {
-                          return "example@gmail.com";
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        email = value;
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Colors.white,
-                        labelText: 'Email',
-                        hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(
-                          Icons.email,
-                          color: Colors.lightGreen[800],
-                        ),
-                      ),
+      body: ModalProgressHUD(
+        inAsyncCall: isLoading,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Form(
+                key: _formkey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    // Container(
+                    //   margin: EdgeInsets.only(top: 10),
+                    //   child: GestureDetector(
+                    //     onTap: getImage,
+                    //     child: CircleAvatar(
+                    //       radius: 80,
+                    //       backgroundColor: Colors.amberAccent,
+                    //       child: DecoratedBox(
+                    //         decoration: BoxDecoration(
+                    //           image: DecorationImage(
+                    //               image: _image == null
+                    //                   ? MemoryImage(kTransparentImage)
+                    //                   : FileImage(_image),
+                    //               fit: BoxFit.fill),
+                    //         ),
+                    //         child: IconButton(
+                    //           icon: Icon(
+                    //             Icons.add_a_photo,
+                    //             size: 35,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  //Email///////
-                  SizedBox(
-                    height: 20,
-                  ),
-                  //////PassWord//////
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    decoration: (BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                    child: TextFormField(
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return "Field cannot be empty";
-                        }
-                        if (value.length < 6) {
-                          return "Minimum 6 Digits";
-                        }
-                        // if (!RegExp('^[0-9]').hasMatch(value)) {
-                        //   return 'Only Digits (0-9)';
-                        // }
-
-                        return null;
-                      },
-                      // obscureText: _secureText,
-                      onChanged: (value) {
-                        password = value;
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Colors.white,
-                        labelText: 'Password',
-                        hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(
-                          Icons.security,
-                          color: Colors.lightGreen[800],
-                        ),
-                      ),
-                    ),
-                  ),
-                  /////////Password//////////
-                  SizedBox(
-                    height: 20,
-                  ),
-                  /////////////Name///////////
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    // margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.center,
-                    decoration: (BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                    child: TextFormField(
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return "Field cannot be empty";
-                        }
-                        if (!RegExp('^[a-zA-Z]').hasMatch(value)) {
-                          return 'Invalid ';
-                        }
-
-                        return null;
-                      },
-                      onChanged: (value) {
-                        name = value;
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Colors.white,
-                        labelText: 'Name',
-                        hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(
-                          Icons.drive_file_rename_outline,
-                          color: Colors.lightGreen[800],
-                        ),
-                      ),
-                    ),
-                  ),
-                  //////Name/////
-                  SizedBox(
-                    height: 20,
-                  ),
-                  /////Phone//////
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    decoration: (BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                    child: TextFormField(
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return "Field cannot be empty";
-                        }
-                        if (!RegExp('^[0-9]').hasMatch(value)) {
-                          return 'Enter Digits Phone Number ';
-                        }
-
-                        // if (value.length <= 11) {
-                        //   return "11 Digits Phone Number Required";
-                        // }
-
-                        return null;
-                      },
-                      onChanged: (value) {
-                        phone = value;
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Colors.white,
-                        labelText: 'Phone',
-                        hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(
-                          Icons.call,
-                          color: Colors.lightGreen[800],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  /////////////////////Gender/////////
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    decoration: (BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                    ////Gender Go Here
-                    child: DropdownButton(
-                      elevation: 10,
-                      hint: Text(
-                        'Gender',
-                      ),
-                      onChanged: (val) {
-                        print(val);
-                        setState(() {
-                          this.gender = val;
-                        });
-                      },
-                      value: this.gender,
-                      items: [
-                        DropdownMenuItem(
-                          child: Text('Male'),
-                          value: 'Male',
-                        ),
-                        DropdownMenuItem(
-                          child: Text(
-                            'Female',
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: (BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return "Field cannot be empty";
+                          }
+                          if (!RegExp(
+                                  '^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]+.[com]')
+                              .hasMatch(value)) {
+                            return "example@gmail.com";
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          email = value;
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Colors.white,
+                          labelText: 'Email',
+                          hintStyle: TextStyle(color: Colors.black),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.lightGreen[800],
                           ),
-                          value: 'Female',
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  //////////////Employee Status/////////////////
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    decoration: (BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                    ////Gender Go Here
-                    child: DropdownButton(
-                      hint: Text(
-                        'Designation',
-                      ),
-                      onChanged: (val) {
-                        print(val);
-                        setState(() {
-                          this.designation = val;
-                        });
-                      },
-                      value: this.designation,
-                      items: [
-                        DropdownMenuItem(
-                          child: Text('Admin'),
-                          value: 'Admin',
-                        ),
-                        DropdownMenuItem(
-                          child: Text('Senior Developer'),
-                          value: 'Senior Developer',
-                        ),
-                        DropdownMenuItem(
-                          child: Text('Junior Developer'),
-                          value: 'Junior Developer',
-                        ),
-                        DropdownMenuItem(
-                          child: Text('Interns'),
-                          value: 'Interns',
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  //////////////////Employee Position///////////////
-
-                  /////////////////////DATE PICKER///////////////
-                  Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: <Widget>[
-                        RaisedButton(
-                          child: Text('Select Dob'),
-                          onPressed: () {
-                            showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime(3000))
-                                .then((value) {
-                              setState(() {
-                                uploadDob = value;
-
-                                dob =
-                                    "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year.toString()}";
-                                print(dob);
-                              });
-                            });
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          uploadDob == null
-                              ? 'Nothing has been selected'
-                              : '${uploadDob.day}/${uploadDob.month}/${uploadDob.year}',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  ///////////////********** Date Picker***************///////////////
-
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    decoration: (BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                    child: TextFormField(
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return "Field cannot be empty";
-                        }
-
-                        return null;
-                      },
-                      onChanged: (value) {
-                        address = value;
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Colors.white,
-                        labelText: 'Address',
-                        hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(
-                          Icons.location_city,
-                          color: Colors.lightGreen[800],
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.center,
-                    decoration: (BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                    child: DropdownButton(
-                      hint: Text(
-                        'Register As',
-                      ),
-                      onChanged: (val) {
-                        print(val);
-                        setState(() {
-                          this.registrationAs = val;
-                        });
-                      },
-                      value: this.registrationAs,
-                      items: [
-                        DropdownMenuItem(
-                          child: Text('Admin'),
-                          value: 'Admin',
-                        ),
-                        DropdownMenuItem(
-                          child: Text('Employee'),
-                          value: 'Employee',
-                        )
-                      ],
+                    //Email///////
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 50,
-                        width: 150,
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                    //////PassWord//////
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: (BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return "Field cannot be empty";
+                          }
+                          if (value.length < 6) {
+                            return "Minimum 6 Digits";
+                          }
+                          // if (!RegExp('^[0-9]').hasMatch(value)) {
+                          //   return 'Only Digits (0-9)';
+                          // }
+
+                          return null;
+                        },
+                        // obscureText: _secureText,
+                        onChanged: (value) {
+                          password = value;
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Colors.white,
+                          labelText: 'Password',
+                          hintStyle: TextStyle(color: Colors.black),
+                          prefixIcon: Icon(
+                            Icons.security,
+                            color: Colors.lightGreen[800],
                           ),
-                          elevation: 10,
-                          color: Colors.lightGreenAccent,
-                          splashColor: Colors.white,
-                          child: Text(
-                            'Submit',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    /////////Password//////////
+                    SizedBox(
+                      height: 20,
+                    ),
+                    /////////////Name///////////
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      // margin: EdgeInsets.only(top: 10),
+                      alignment: Alignment.center,
+                      decoration: (BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return "Field cannot be empty";
+                          }
+                          if (!RegExp('^[a-zA-Z]').hasMatch(value)) {
+                            return 'Invalid ';
+                          }
+                          if (value.length < 2) {
+                            return "Too short";
+                          }
+
+                          return null;
+                        },
+                        onChanged: (value) {
+                          name = value;
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Colors.white,
+                          labelText: 'Name',
+                          hintStyle: TextStyle(color: Colors.black),
+                          prefixIcon: Icon(
+                            Icons.drive_file_rename_outline,
+                            color: Colors.lightGreen[800],
+                          ),
+                        ),
+                      ),
+                    ),
+                    //////Name/////
+                    SizedBox(
+                      height: 20,
+                    ),
+                    /////Phone//////
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: (BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return "Field cannot be empty";
+                          }
+                          if (!RegExp('^[0-9]').hasMatch(value)) {
+                            return 'Enter Digits Phone Number ';
+                          }
+
+                          // if (value.length <= 11) {
+                          //   return "11 Digits Phone Number Required";
+                          // }
+
+                          return null;
+                        },
+                        onChanged: (value) {
+                          phone = value;
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Colors.white,
+                          labelText: 'Phone',
+                          hintStyle: TextStyle(color: Colors.black),
+                          prefixIcon: Icon(
+                            Icons.call,
+                            color: Colors.lightGreen[800],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    /////////////////////Gender/////////
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: (BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      ////Gender Go Here
+                      child: DropdownButton(
+                        elevation: 10,
+                        hint: Text(
+                          'Gender',
+                        ),
+                        onChanged: (val) {
+                          print(val);
+                          setState(() {
+                            this.gender = val;
+                          });
+                        },
+                        value: this.gender,
+                        items: [
+                          DropdownMenuItem(
+                            child: Text('Male'),
+                            value: 'Male',
+                          ),
+                          DropdownMenuItem(
+                            child: Text(
+                              'Female',
                             ),
+                            value: 'Female',
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    //////////////Employee Status/////////////////
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: (BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      ////Gender Go Here
+                      child: DropdownButton(
+                        hint: Text(
+                          'Designation',
+                        ),
+                        onChanged: (val) {
+                          print(val);
+                          setState(() {
+                            this.designation = val;
+                          });
+                        },
+                        value: this.designation,
+                        items: [
+                          DropdownMenuItem(
+                            child: Text('Admin'),
+                            value: 'Admin',
                           ),
-                          onPressed: () async {
-                            if (_formkey.currentState.validate()) {
-                              print(email);
-                              print(password);
-                              print(name);
-                              print(phone);
-                              print(address);
-                              print(dob);
-                              print(designation);
+                          DropdownMenuItem(
+                            child: Text('Senior Developer'),
+                            value: 'Senior Developer',
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Junior Developer'),
+                            value: 'Junior Developer',
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Interns'),
+                            value: 'Interns',
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    //////////////////Employee Position///////////////
 
-                              try {
-                                var newUser = _auth
-                                    .createUserWithEmailAndPassword(
-                                        email: email, password: password)
-                                    .then(
-                                      (newUser) => _firestore
-                                          .collection('$registrationAs')
-                                          .doc(newUser.user.uid)
-                                          .set(
-                                        {
-                                          'Name': name,
-                                          'Gender': gender,
-                                          'Phone': phone,
-                                          'Dob': dob,
-                                          'Address': address,
-                                          'Email': email,
-                                          'Designation': designation,
-                                        },
-                                      ),
+                    /////////////////////DATE PICKER///////////////
+                    Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: <Widget>[
+                          RaisedButton(
+                            child: Text('Select Dob'),
+                            onPressed: () {
+                              showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime(3000))
+                                  .then((value) {
+                                setState(() {
+                                  uploadDob = value;
+
+                                  dob =
+                                      "${value.day.toString().padLeft(2, '0')}/${value.month.toString().padLeft(2, '0')}/${value.year.toString()}";
+                                  print(dob);
+                                });
+                              });
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            uploadDob == null
+                                ? 'Nothing has been selected'
+                                : '${uploadDob.day}/${uploadDob.month}/${uploadDob.year}',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    ///////////////********** Date Picker***************///////////////
+
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: (BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      child: TextFormField(
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return "Field cannot be empty";
+                          }
+
+                          return null;
+                        },
+                        onChanged: (value) {
+                          address = value;
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Colors.white,
+                          labelText: 'Address',
+                          hintStyle: TextStyle(color: Colors.black),
+                          prefixIcon: Icon(
+                            Icons.location_city,
+                            color: Colors.lightGreen[800],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: (BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      child: DropdownButton(
+                        hint: Text(
+                          'Register As',
+                        ),
+                        onChanged: (val) {
+                          print(val);
+                          setState(() {
+                            this.registrationAs = val;
+                          });
+                        },
+                        value: this.registrationAs,
+                        items: [
+                          DropdownMenuItem(
+                            child: Text('Admin'),
+                            value: 'Admin',
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Employee'),
+                            value: 'Employee',
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 50,
+                          width: 150,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            elevation: 10,
+                            color: Colors.lightGreenAccent,
+                            splashColor: Colors.white,
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              if (_formkey.currentState.validate()) {
+                                print(email);
+                                print(password);
+                                print(name);
+                                print(phone);
+                                print(address);
+                                print(dob);
+                                print(designation);
+
+                                try {
+                                  var newUser = await _auth
+                                      .createUserWithEmailAndPassword(
+                                          email: email, password: password)
+                                      .then((newUser) {
+                                    FirebaseFirestore.instance
+                                        .collection('$registrationAs')
+                                        .doc(newUser.user.uid)
+                                        .set(
+                                      {
+                                        'Name': name,
+                                        'Gender': gender,
+                                        'Phone': phone,
+                                        'Dob': dob,
+                                        'Address': address,
+                                        'Email': email,
+                                        'Designation': designation,
+                                      },
                                     );
+                                  });
 
-                                if (newUser != null) {
+                                  if (newUser != null) {}
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => HomePage()));
+                                  print('Its good to go');
                                 }
-
-                                print('Its good to go');
+                                //Try
+                                catch (e) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  String errorMessage = '${e.toString()}';
+                                  return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text('$errorMessage'),
+                                          actions: [
+                                            FlatButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('ok'))
+                                          ],
+                                        );
+                                      });
+                                }
+                                // Catch
                               }
-                              //Try
-                              catch (e) {
-                                print('Its not working');
-                              }
-                              // Catch
-                            }
-                          },
-                          //On press
+                              setState(() {
+                                isLoading = false;
+                              });
+                            },
+                            //On press
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

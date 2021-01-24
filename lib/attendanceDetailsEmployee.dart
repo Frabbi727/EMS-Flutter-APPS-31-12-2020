@@ -65,7 +65,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        backgroundColor: Colors.cyan,
         title: Text(
           'Regular Attendance Details',
           style: TextStyle(color: Colors.white),

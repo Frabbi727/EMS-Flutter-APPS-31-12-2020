@@ -61,12 +61,12 @@ class _AllEmployeeTableState extends State<AllEmployeeTable> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.blueGrey[200],
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        backgroundColor: Colors.blueGrey[700],
         title: Text(
           'Employee List',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
       ),
       body: Padding(

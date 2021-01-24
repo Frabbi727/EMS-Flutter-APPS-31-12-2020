@@ -94,7 +94,7 @@ class _EmployeePortalState extends State<EmployeePortal> {
                           ),
                           color: Colors.lightGreen[200],
                           child: Text(
-                            'Daily Attendance',
+                            'Submit Attendance',
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -120,7 +120,7 @@ class _EmployeePortalState extends State<EmployeePortal> {
                           ),
                           color: Colors.orangeAccent[100],
                           child: Text(
-                            'Advance Application From',
+                            'Advance Application Form',
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -146,7 +146,7 @@ class _EmployeePortalState extends State<EmployeePortal> {
                           ),
                           color: Colors.cyan[200],
                           child: Text(
-                            'Leave Application From',
+                            'Leave Application Form',
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,

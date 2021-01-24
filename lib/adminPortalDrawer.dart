@@ -47,152 +47,167 @@ class _AdminDrawerState extends State<AdminDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white60,
-                    Colors.lightGreenAccent,
-                    Colors.greenAccent
-                  ],
-                  begin: FractionalOffset.topLeft,
-                  end: FractionalOffset.centerRight,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.white60,
+              Colors.lightGreenAccent,
+              Colors.greenAccent
+            ],
+            begin: FractionalOffset.topLeft,
+            end: FractionalOffset.centerRight,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.blueGrey,
+                      Colors.lime,
+                      Colors.lightGreenAccent
+                    ],
+                    begin: FractionalOffset.topLeft,
+                    end: FractionalOffset.centerRight,
+                  ),
                 ),
-              ),
-              width: double.infinity,
-              padding: EdgeInsets.all(20),
-              // color: Colors.lightGreen[300],
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        'Admin',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 30),
+                width: double.infinity,
+                padding: EdgeInsets.all(20),
+                // color: Colors.lightGreen[300],
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          'Admin',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 30),
+                        ),
+                        width: 100,
+                        height: 30,
                       ),
-                      width: 100,
-                      height: 30,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // Container(
-            //   child: Text("${loggedInUser.email}"),
-            // ),
-
-            // ListTile(
-            //   leading: Icon(
-            //     Icons.person,
-            //     color: Colors.lightGreen[800],
-            //   ),
-            //   onTap: () {
-            //     Navigator.push(context,
-            //         MaterialPageRoute(builder: (context) => AdminProfile()));
-            //   },
-            //   title: Text(
-            //     'Profile',
-            //     style: TextStyle(
-            //         fontSize: 20,
-            //         color: Colors.black,
-            //         fontWeight: FontWeight.bold),
-            //   ),
-            // ),
-            ListTile(
-              leading: Icon(
-                Icons.present_to_all,
-                color: Colors.lightGreen[800],
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AllEmployeeAttendance()));
-              },
-              title: Text(
-                'Employee Attendance Details',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.payments_outlined,
-                color: Colors.lightGreen[800],
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AdvanceDetails()));
-              },
-              title: Text(
-                'Employee Advance Details',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            ListTile(
-              leading: Icon(
-                Icons.circle,
-                color: Colors.lightGreen[800],
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LeaveDetails()));
-              },
-              title: Text(
-                'Employee Leave Details',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Center(
-                child: SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    elevation: 10,
-                    color: Colors.lightGreenAccent,
-                    splashColor: Colors.white,
-                    child: Text(
-                      'Sign Out',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onPressed: () {
-                      _auth.signOut();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomePage()));
-                    },
+                    ],
                   ),
                 ),
               ),
-            ),
-          ],
+              // Container(
+              //   child: Text("${loggedInUser.email}"),
+              // ),
+
+              // ListTile(
+              //   leading: Icon(
+              //     Icons.person,
+              //     color: Colors.lightGreen[800],
+              //   ),
+              //   onTap: () {
+              //     Navigator.push(context,
+              //         MaterialPageRoute(builder: (context) => AdminProfile()));
+              //   },
+              //   title: Text(
+              //     'Profile',
+              //     style: TextStyle(
+              //         fontSize: 20,
+              //         color: Colors.black,
+              //         fontWeight: FontWeight.bold),
+              //   ),
+              // ),
+              ListTile(
+                leading: Icon(
+                  Icons.present_to_all,
+                  color: Colors.black,
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AllEmployeeAttendance()));
+                },
+                title: Text(
+                  'Employee Attendance Details',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.payments_outlined,
+                  color: Colors.black,
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AdvanceDetails()));
+                },
+                title: Text(
+                  'Employee Advance Details',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+
+              ListTile(
+                leading: Icon(
+                  Icons.circle,
+                  color: Colors.black,
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LeaveDetails()));
+                },
+                title: Text(
+                  'Employee Leave Details',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: Center(
+                  child: SizedBox(
+                    height: 50,
+                    width: 150,
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      elevation: 10,
+                      color: Colors.lightGreenAccent,
+                      splashColor: Colors.white,
+                      child: Text(
+                        'Sign Out',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        _auth.signOut();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomePage()));
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

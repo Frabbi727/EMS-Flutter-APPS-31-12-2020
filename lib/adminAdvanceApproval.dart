@@ -116,9 +116,9 @@ class _AdvanceApprovalState extends State<AdvanceApproval> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.blueGrey[100],
+      backgroundColor: Colors.deepOrangeAccent[100],
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        backgroundColor: Colors.deepOrangeAccent[700],
         title: Text(
           'Advance Applications',
           style: TextStyle(color: Colors.white),

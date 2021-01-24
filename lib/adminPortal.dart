@@ -151,7 +151,7 @@ class _AdminPortalState extends State<AdminPortal> {
                             ),
                             color: Colors.blueGrey[200],
                             child: Text(
-                              'All Employee Details',
+                              'Employee Details',
                               style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.black,

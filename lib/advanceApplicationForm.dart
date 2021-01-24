@@ -55,7 +55,7 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
         backgroundColor: Colors.black12,
         title: Text('Advance Application Form'),
       ),
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.lime,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -138,7 +138,7 @@ class _AdvanceApplicationFormState extends State<AdvanceApplicationForm> {
                   )),
                   child: DropdownButton(
                     hint: Text(
-                      'Reason',
+                      'Applying For',
                     ),
                     onChanged: (val) {
                       print(val);

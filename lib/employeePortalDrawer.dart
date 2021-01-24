@@ -44,17 +44,28 @@ class _EmployeeDrawerState extends State<EmployeeDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Scaffold(
-        body: SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.white60,
+              Colors.lightGreenAccent,
+              Colors.greenAccent
+            ],
+            begin: FractionalOffset.topLeft,
+            end: FractionalOffset.centerRight,
+          ),
+        ),
+        child: SafeArea(
           child: Column(
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.lightGreen,
-                      Colors.blueGrey[200],
-                      Colors.greenAccent,
+                      Colors.lime,
+                      Colors.cyan[300],
+                      Colors.red[100],
                     ],
                     begin: FractionalOffset.topLeft,
                     end: FractionalOffset.centerRight,
@@ -117,7 +128,7 @@ class _EmployeeDrawerState extends State<EmployeeDrawer> {
                           builder: (context) => AttendanceDetails()));
                 },
                 title: Text(
-                  'Attendance Details',
+                  'View Attendance Details',
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
